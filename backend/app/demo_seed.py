@@ -1,11 +1,9 @@
 """Seed the in-memory store with synthetic meter data at startup.
 
-The prototype API keeps readings in memory (see ``MockDataStore`` in
-``app.api.routes``), so a fresh deployment starts empty and every restart
-wipes it. When ``DEMO_SEED=1`` the API generates the same 60-day demo
-dataset that ``ingest_simulator_data.py`` posts over HTTP, but loads it
-directly into the store in a background thread so ``/health`` answers
-immediately while seeding runs.
+The live API keeps readings in memory (``app.store``), so a fresh deploy
+starts empty. When ``DEMO_SEED=1`` the API generates a 60-day synthetic
+network (48 meters on 8 transformers, with injected thefts and decoys) in a
+background thread so ``/health`` answers immediately while seeding runs.
 """
 
 from __future__ import annotations
@@ -21,7 +19,6 @@ from pathlib import Path
 import yaml
 
 log = logging.getLogger("uvicorn.error")
-SEED_CHUNK = 10_000
 
 # Same theft layout as ingest_simulator_data.py: theft starts after ~day 20
 # so the z-score layer has a clean baseline to compare against.
@@ -51,49 +48,47 @@ def _simulator_dir() -> Path:
     raise FileNotFoundError("simulator/config.yaml not found above " + __file__)
 
 
-def build_demo_frame():
-    """Generate the 60-day demo dataset as a DataFrame of valid readings."""
+# Legitimate drops (vacant premises) that a detector should NOT flag. Two sit
+# on transformers that also have a theft, which makes them harder.
+DECOYS = [
+    {"meter_id": "DT2-M05", "kind": "vacancy", "start_day": 30, "end_day": 60, "severity": 0.85},
+    {"meter_id": "DT5-M06", "kind": "vacancy", "start_day": 35, "end_day": 60, "severity": 0.90},
+    {"meter_id": "DT8-M04", "kind": "vacancy", "start_day": 25, "end_day": 60, "severity": 0.80},
+]
+
+
+def build_demo_dataset():
+    """Generate the 60-day demo network: meters, DT input and ground truth."""
     sim_dir = _simulator_dir()
     if str(sim_dir.parent) not in sys.path:
         sys.path.insert(0, str(sim_dir.parent))
     from simulator.dataset import build_dataset
     from simulator.models import SimConfig
 
+    start = date.today() - timedelta(days=59)
     raw = yaml.safe_load((sim_dir / "config.yaml").read_text())
-    raw["days"] = 60
-    raw["start_date"] = (date.today() - timedelta(days=59)).isoformat()
-    raw["dt_count"] = 8
-    raw["meters_per_dt"] = 6
-    raw["theft_scenarios"] = THEFT_SCENARIOS
-
-    df = build_dataset(SimConfig.from_dict(raw))["meter_readings"][["meter_id", "ts", "kwh"]]
-    return df[df["kwh"].notna() & (df["kwh"].abs() < 1e10)]
+    raw.update(days=60, start_date=start.isoformat(), dt_count=8, meters_per_dt=6,
+               theft_scenarios=THEFT_SCENARIOS, decoys=DECOYS)
+    return build_dataset(SimConfig.from_dict(raw)), start
 
 
 def _seed() -> None:
-    from app.api.routes import BatchIngestRequest, store
+    from app.store import store
 
     try:
-        df = build_demo_frame()
-        written = 0
-        # Load in chunks so only one chunk of request objects is alive at a
-        # time, which keeps peak memory down on a small instance.
-        for start in range(0, len(df), SEED_CHUNK):
-            chunk = [
-                BatchIngestRequest(
-                    meter_id=row.meter_id, timestamp=row.ts.isoformat(),
-                    kwh=float(row.kwh), voltage=230.0, pf=0.95,
-                )
-                for row in df.iloc[start:start + SEED_CHUNK].itertuples(index=False)
-            ]
-            written += store.add_readings(chunk)[2]
-        del df, chunk
+        ds, start = build_demo_dataset()
+        store.add_meter_frame(ds["meter_readings"][["meter_id", "ts", "kwh"]])
+        store.add_dt_frame(ds["dt_readings"][["dt_id", "ts", "kwh_in"]])
+        store.set_truth(THEFT_SCENARIOS, DECOYS, start)
+        del ds
         gc.collect()
-        log.info("demo seed: loaded %d readings", written)
-        store.get_queue(date.today())  # warm the queue cache before the first visitor
-        gc.collect()
-        log.info("demo seed: queue cache warmed")
+        store.queue()  # warm the cache before the first visitor
+        store.ready = True
+        log.info("demo seed: %d meters, %d days loaded", len(store.topology), len(store.dates()))
+        lag = store.compute_detection_lag()
+        log.info("demo seed: detection lag computed (mean %s days)", lag.get("mean"))
     except Exception:
+        store.ready = True
         log.exception("demo seed failed; the API is up but has no data")
 
 

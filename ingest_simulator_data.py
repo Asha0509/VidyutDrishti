@@ -107,6 +107,13 @@ for i in range(0, len(api_readings), BATCH_SIZE):
     except Exception as e:
         print(f"    Batch {i//BATCH_SIZE + 1}: ERROR - {e}")
 
+# Transformer input readings feed the energy-balance layer (L0).
+dt_rows = [{"dt_id": r.dt_id, "timestamp": r.ts.isoformat(), "kwh_in": float(r.kwh_in)}
+           for r in dataset["dt_readings"].itertuples(index=False)]
+for i in range(0, len(dt_rows), 1000):
+    requests.post(f"{BASE_URL}/api/v1/ingest/dt-batch", json=dt_rows[i:i + 1000], timeout=30)
+print(f"    Ingested {len(dt_rows)} transformer readings")
+
 print(f"\n[4] Summary:")
 print(f"    Total records generated: {len(api_readings)}")
 print(f"    Total records ingested: {total_ingested}")
