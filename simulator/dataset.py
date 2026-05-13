@@ -160,15 +160,21 @@ def _build_meter_readings(
         dt_id = m["dt_id"]
         base_kwh = _simulate_meter(cfg, rng, dates, holidays_set, cat)
 
-        if mid in theft_by_meter:
-            s = theft_by_meter[mid]
-            base_kwh = apply_theft(base_kwh, cfg, s)
-            injected_rows.append({"meter_id": mid, "event_type": "theft", **asdict(s)})
-
+        # Decoys (vacancy etc.) genuinely reduce what the premises consumes,
+        # so they apply before the transformer sees the load.
         if mid in decoy_by_meter:
             d = decoy_by_meter[mid]
             base_kwh = apply_decoy(base_kwh, cfg, d)
             injected_rows.append({"meter_id": mid, "event_type": "decoy", **asdict(d)})
+
+        # Energy actually drawn through the transformer. Theft hides consumption
+        # from the meter, not from the transformer, so it is captured here first.
+        true_kwh = base_kwh.copy()
+
+        if mid in theft_by_meter:
+            s = theft_by_meter[mid]
+            base_kwh = apply_theft(base_kwh, cfg, s)
+            injected_rows.append({"meter_id": mid, "event_type": "theft", **asdict(s)})
 
         voltage = _sample_voltage(cfg, rng, len(base_kwh))
         pf = _sample_pf(cfg, rng, cat, len(base_kwh))
@@ -179,9 +185,9 @@ def _build_meter_readings(
         voltage[missing] = np.nan
         pf[missing] = np.nan
 
-        # Running sum for DT table - NaN rows are treated as 0 kWh, matching the
-        # downstream behaviour of the ingestion pipeline.
-        dt_sum[dt_id] += np.nan_to_num(kwh, nan=0.0)
+        # DT input is the true load (unaffected by theft or by missing meter
+        # reads), so stolen energy shows up as an energy-balance gap (Layer 0).
+        dt_sum[dt_id] += true_kwh
 
         meter_frames.append(pd.DataFrame({
             "meter_id": mid,
@@ -201,8 +207,9 @@ def _build_dt_readings(
     ts: np.ndarray,
     dt_sum: dict[str, np.ndarray],
 ) -> pd.DataFrame:
-    """DT-level `kwh_in` = meter_sum * (1 + technical_loss), with loss drawn
-    per DT and jittered per slot. Vectorised; no full merge of the long frame.
+    """DT-level `kwh_in` = true consumption * (1 + technical_loss), with loss
+    drawn per DT and jittered per slot. Because the true consumption includes
+    stolen energy, `kwh_in - sum(metered)` grows when theft starts.
     """
     jitter_std = 0.005
     frames: list[pd.DataFrame] = []
