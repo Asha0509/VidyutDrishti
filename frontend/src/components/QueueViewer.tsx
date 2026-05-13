@@ -6,6 +6,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import './QueueViewer.css'
+import { API_BASE } from '../api'
 
 interface QueueItem {
   rank: number
@@ -27,7 +28,7 @@ function QueueViewer() {
   const fetchQueue = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:8000/api/v1/queue/daily')
+      const res = await fetch(`${API_BASE}/api/v1/queue/daily`)
       if (!res.ok) throw new Error('Failed to fetch queue')
       const data = await res.json()
       setItems(data.items || [])

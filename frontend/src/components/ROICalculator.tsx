@@ -8,6 +8,7 @@
 
 import { useEffect, useState } from 'react'
 import './ROICalculator.css'
+import { API_BASE } from '../api'
 
 interface ROI {
   bescom_consumers: number
@@ -36,7 +37,7 @@ function ROICalculator() {
         avg_monthly_theft_inr: avgTheft.toString(),
         atc_loss_pct: atcLoss.toString(),
       })
-      const r = await fetch(`/api/v1/metrics/roi?${params}`)
+      const r = await fetch(`${API_BASE}/api/v1/metrics/roi?${params}`)
       const data = await r.json()
       setRoi(data)
     } catch (err) {

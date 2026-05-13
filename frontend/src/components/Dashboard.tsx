@@ -11,6 +11,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts'
 import './Dashboard.css'
+import { API_BASE } from '../api'
 
 const COLORS = ['#3b82f6', '#ef4444', '#f59e0b', '#10b981']
 
@@ -54,8 +55,8 @@ function Dashboard() {
   const fetchKPIs = useCallback(async () => {
       try {
         const [queueRes, zonesRes] = await Promise.all([
-          fetch('/api/v1/queue/daily'),
-          fetch('/api/v1/zones/summary'),
+          fetch(`${API_BASE}/api/v1/queue/daily`),
+          fetch(`${API_BASE}/api/v1/zones/summary`),
         ])
         let pending = 0
         let highConf = 0

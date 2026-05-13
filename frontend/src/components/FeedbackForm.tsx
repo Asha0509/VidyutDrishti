@@ -6,6 +6,7 @@
 
 import { useState } from 'react'
 import './FeedbackForm.css'
+import { API_BASE } from '../api'
 
 interface FeedbackData {
   meter_id: string
@@ -31,7 +32,7 @@ function FeedbackForm() {
     setLoading(true)
     
     try {
-      const response = await fetch('http://localhost:8000/api/v1/feedback', {
+      const response = await fetch(`${API_BASE}/api/v1/feedback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

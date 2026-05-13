@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import './ZoneRiskMap.css'
+import { API_BASE } from '../api'
 
 interface ZoneData {
   id: string
@@ -41,7 +42,7 @@ function ZoneRiskMap() {
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/v1/zones/summary')
+        const response = await fetch(`${API_BASE}/api/v1/zones/summary`)
         if (!response.ok) throw new Error(`HTTP ${response.status}`)
         const data = await response.json()
         setZones(data.zones)

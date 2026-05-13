@@ -7,6 +7,7 @@
 
 import { useState } from 'react'
 import './MeterLookup.css'
+import { API_BASE } from '../api'
 
 interface LayerSignals {
   l0_is_anomaly: boolean
@@ -114,7 +115,7 @@ function MeterLookup() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch(`/api/v1/meters/${meterId.toUpperCase()}/status`)
+      const res = await fetch(`${API_BASE}/api/v1/meters/${meterId.toUpperCase()}/status`)
       if (!res.ok) {
         setError(res.status === 404 ? 'Meter not found' : `Error: ${res.status}`)
         setStatus(null)

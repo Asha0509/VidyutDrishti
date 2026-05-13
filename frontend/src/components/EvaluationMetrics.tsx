@@ -11,6 +11,7 @@ import {
   LineChart, Line, CartesianGrid,
 } from 'recharts'
 import './EvaluationMetrics.css'
+import { API_BASE } from '../api'
 
 interface ThresholdPoint {
   threshold: number
@@ -40,7 +41,7 @@ function EvaluationMetrics() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/v1/metrics/evaluation')
+    fetch(`${API_BASE}/api/v1/metrics/evaluation`)
       .then((r) => r.json())
       .then((data) => setMetrics(data))
       .catch((err) => console.error('Metrics fetch error:', err))
