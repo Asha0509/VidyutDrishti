@@ -280,8 +280,8 @@ def score_meters(
             explained = float(g["explained"].get(m, 0.0))
             l0 = Layer("dt_balance", explained >= 0.5 and my_drop > 0, explained,
                        round(g["loss_pct_recent"] - g["loss_pct_base"], 1),
-                       (f"{dt_id} unmetered energy {g['loss_pct_base']:.1f}% -> {g['loss_pct_recent']:.1f}% of input "
-                        f"(+{g['extra_unmetered_kwh']:.1f} kWh/day). "
+                       (f"{dt_id} unmetered energy went from {g['loss_pct_base']:.1f}% to {g['loss_pct_recent']:.1f}% of input "
+                        f"({g['extra_unmetered_kwh']:+.1f} kWh/day). "
                         + ("That missing energy accounts for this meter's drop, so the load is still being drawn."
                            if explained >= 0.5 and my_drop > 0 else
                            "The transformer is not losing extra energy, so the drop looks genuine." if my_drop > 0
@@ -292,7 +292,8 @@ def score_meters(
         # L3
         l3s = float(iso[m])
         l3 = Layer("isolation_forest", l3s >= 0.6, l3s, round(l3s, 2),
-                   f"Multivariate outlier score {l3s:.2f} (ratio, peer gap, zero days, trend).")
+                   f"Outlier score {l3s:.2f} of 1 (0.6 counts as unusual), from the drop, the gap to neighbours, "
+                   f"zero-usage days and the trend.")
 
         # Gradual tampering: a steady decline over the last three weeks, even
         # before the weekly average has fallen far below baseline.

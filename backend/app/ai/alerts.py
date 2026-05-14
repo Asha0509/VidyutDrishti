@@ -2,7 +2,7 @@
 
 Rules (evaluated for each of the last N days against the day before):
   new_flag        a meter crosses the flag threshold
-  escalation      a flagged meter moves up a tier (REVIEW -> MEDIUM -> HIGH)
+  escalation      a flagged meter moves up a tier (REVIEW, then MEDIUM, then HIGH)
   balance_jump    a transformer's unmetered share rises 5+ points vs a week earlier
   cleared         a flagged meter drops back below the threshold
 
@@ -58,7 +58,7 @@ def alerts(days: int = 7) -> List[Dict[str, Any]]:
             elif p is not None and sc.flagged and p.flagged and TIER_RANK[sc.tier] > peak.get(mid, 0):
                 items.append({"date": d.isoformat(), "type": "escalation", "severity": SEVERITY.get(sc.tier, "info"),
                               "meter_id": mid, "zone": sc.zone, "dt_id": sc.dt_id, "tier": sc.tier,
-                              "title": f"{mid} escalated {p.tier} -> {sc.tier}",
+                              "title": f"{mid} risk rose from {p.tier.lower()} to {sc.tier.lower()}",
                               "estimated_monthly_loss_inr": sc.est_monthly_loss_inr})
             elif p is not None and p.flagged and not sc.flagged and (mid, "cleared") not in seen:
                 seen.add((mid, "cleared"))
@@ -73,7 +73,7 @@ def alerts(days: int = 7) -> List[Dict[str, Any]]:
                               "severity": "critical" if today - week_ago >= 15 else "warning",
                               "meter_id": None, "zone": next((z["id"] for z in s.zones() if z["dt_id"] == dt_id), dt_id),
                               "dt_id": dt_id, "tier": None,
-                              "title": f"{dt_id} unmetered energy rose {week_ago:.1f}% -> {today:.1f}% in a week",
+                              "title": f"{dt_id} unmetered energy rose from {week_ago:.1f}% to {today:.1f}% in a week",
                               "estimated_monthly_loss_inr": 0})
         for mid, sc in cur.items():
             peak[mid] = max(peak.get(mid, 0), TIER_RANK[sc.tier])
@@ -82,9 +82,13 @@ def alerts(days: int = 7) -> List[Dict[str, Any]]:
     return sorted(items, key=lambda a: (a["date"], -order[a["severity"]]), reverse=True)
 
 
+def _period(days: int) -> str:
+    return "last day" if days == 1 else f"last {days} days"
+
+
 def _template_digest(items: List[Dict[str, Any]], days: int) -> str:
     if not items:
-        return f"No new alerts in the last {days} day{'s' if days > 1 else ''}."
+        return f"No new alerts in the {_period(days)}."
     crit = [a for a in items if a["severity"] == "critical"]
     zones: Dict[str, int] = {}
     for a in items:
@@ -96,7 +100,7 @@ def _template_digest(items: List[Dict[str, Any]], days: int) -> str:
         if a.get("estimated_monthly_loss_inr") and a["estimated_monthly_loss_inr"] > best.get(a["meter_id"], {}).get("estimated_monthly_loss_inr", -1):
             best[a["meter_id"]] = a
     top = sorted(best.values(), key=lambda a: -a["estimated_monthly_loss_inr"])[:3]
-    parts = [f"{len(items)} alerts in the last {days} days, {len(crit)} critical."]
+    parts = [f"{len(items)} alert{'s' if len(items) != 1 else ''} in the {_period(days)}, {len(crit)} critical."]
     if worst:
         parts.append("Most activity: " + ", ".join(f"{z} ({n})" for z, n in worst) + ".")
     if top:

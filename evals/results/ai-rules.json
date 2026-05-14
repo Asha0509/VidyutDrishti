@@ -1,6 +1,6 @@
 {
   "mode": "rules",
-  "run_at": "2026-10-07T14:08:27+00:00",
+  "run_at": "2026-10-07T14:37:53+00:00",
   "networks": [
     2000,
     2001,
@@ -55,7 +55,7 @@
         "mode": "rules",
         "correct": false,
         "theft_call_correct": true,
-        "latency_ms": 3
+        "latency_ms": 2
       },
       {
         "seed": 2000,
@@ -66,7 +66,7 @@
         "mode": "rules",
         "correct": true,
         "theft_call_correct": true,
-        "latency_ms": 3
+        "latency_ms": 2
       },
       {
         "seed": 2000,
@@ -121,7 +121,7 @@
         "mode": "rules",
         "correct": true,
         "theft_call_correct": true,
-        "latency_ms": 3
+        "latency_ms": 2
       },
       {
         "seed": 2000,
@@ -132,7 +132,7 @@
         "mode": "rules",
         "correct": true,
         "theft_call_correct": true,
-        "latency_ms": 3
+        "latency_ms": 2
       },
       {
         "seed": 2000,
@@ -143,7 +143,7 @@
         "mode": "rules",
         "correct": true,
         "theft_call_correct": true,
-        "latency_ms": 3
+        "latency_ms": 2
       },
       {
         "seed": 2000,
@@ -154,7 +154,7 @@
         "mode": "rules",
         "correct": false,
         "theft_call_correct": false,
-        "latency_ms": 3
+        "latency_ms": 2
       },
       {
         "seed": 2000,
@@ -165,7 +165,7 @@
         "mode": "rules",
         "correct": true,
         "theft_call_correct": true,
-        "latency_ms": 3
+        "latency_ms": 2
       },
       {
         "seed": 2000,
@@ -187,7 +187,7 @@
         "mode": "rules",
         "correct": true,
         "theft_call_correct": true,
-        "latency_ms": 3
+        "latency_ms": 8
       },
       {
         "seed": 2000,
@@ -352,7 +352,7 @@
         "mode": "rules",
         "correct": true,
         "theft_call_correct": true,
-        "latency_ms": 2
+        "latency_ms": 3
       },
       {
         "seed": 2002,
@@ -462,7 +462,7 @@
         "mode": "rules",
         "correct": true,
         "theft_call_correct": true,
-        "latency_ms": 3
+        "latency_ms": 2
       },
       {
         "seed": 2002,
@@ -504,7 +504,7 @@
         "pass": true,
         "hallucinated_ids": [],
         "mode": "rules",
-        "latency_ms": 0
+        "latency_ms": 1
       },
       {
         "seed": 2000,
@@ -548,7 +548,7 @@
         "expected": [
           "89"
         ],
-        "answer": "DT3-M01 (domestic, ZoneC) is HIGH risk with confidence 0.90. It averaged 1.5 kWh/day over the last week against 13.87 before (-89%), pattern sudden drop. DT3 unmetered energy 2.2% -> 18.5% of input (+20.8 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "answer": "DT3-M01 (domestic, ZoneC) is HIGH risk with confidence 0.90. It averaged 1.5 kWh/day over the last week against 13.87 before (-89%), pattern sudden drop. DT3 unmetered energy went from 2.2% to 18.5% of input (+20.8 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
         "pass": true,
         "hallucinated_ids": [],
         "mode": "rules",
@@ -560,7 +560,7 @@
         "expected": [
           "sudden"
         ],
-        "answer": "DT3-M01 (domestic, ZoneC) is HIGH risk with confidence 0.90. It averaged 1.5 kWh/day over the last week against 13.87 before (-89%), pattern sudden drop. DT3 unmetered energy 2.2% -> 18.5% of input (+20.8 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "answer": "DT3-M01 (domestic, ZoneC) is HIGH risk with confidence 0.90. It averaged 1.5 kWh/day over the last week against 13.87 before (-89%), pattern sudden drop. DT3 unmetered energy went from 2.2% to 18.5% of input (+20.8 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
         "pass": true,
         "hallucinated_ids": [],
         "mode": "rules",
@@ -589,7 +589,7 @@
         "pass": false,
         "hallucinated_ids": [],
         "mode": "rules",
-        "latency_ms": 9
+        "latency_ms": 8
       },
       {
         "seed": 2000,
@@ -671,11 +671,11 @@
         "expected": [
           "100"
         ],
-        "answer": "DT7-M01 (commercial, ZoneG) is HIGH risk with confidence 0.94. It averaged 0.0 kWh/day over the last week against 55.45 before (-100%), pattern flatline. DT7 unmetered energy 5.5% -> 67.2% of input (+135.1 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "answer": "DT7-M01 (commercial, ZoneG) is HIGH risk with confidence 0.94. It averaged 0.0 kWh/day over the last week against 55.45 before (-100%), pattern flatline. DT7 unmetered energy went from 5.5% to 67.2% of input (+135.1 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
         "pass": true,
         "hallucinated_ids": [],
         "mode": "rules",
-        "latency_ms": 4
+        "latency_ms": 2
       },
       {
         "seed": 2001,
@@ -683,11 +683,11 @@
         "expected": [
           "flatline"
         ],
-        "answer": "DT7-M01 (commercial, ZoneG) is HIGH risk with confidence 0.94. It averaged 0.0 kWh/day over the last week against 55.45 before (-100%), pattern flatline. DT7 unmetered energy 5.5% -> 67.2% of input (+135.1 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "answer": "DT7-M01 (commercial, ZoneG) is HIGH risk with confidence 0.94. It averaged 0.0 kWh/day over the last week against 55.45 before (-100%), pattern flatline. DT7 unmetered energy went from 5.5% to 67.2% of input (+135.1 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
         "pass": true,
         "hallucinated_ids": [],
         "mode": "rules",
-        "latency_ms": 2
+        "latency_ms": 3
       },
       {
         "seed": 2001,
@@ -793,7 +793,7 @@
         "expected": [
           "100"
         ],
-        "answer": "DT8-M05 (domestic, ZoneH) is HIGH risk with confidence 0.80. It averaged 0.0 kWh/day over the last week against 11.94 before (-100%), pattern flatline. DT8 unmetered energy 5.6% -> 24.7% of input (+19.4 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "answer": "DT8-M05 (domestic, ZoneH) is HIGH risk with confidence 0.80. It averaged 0.0 kWh/day over the last week against 11.94 before (-100%), pattern flatline. DT8 unmetered energy went from 5.6% to 24.7% of input (+19.4 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
         "pass": true,
         "hallucinated_ids": [],
         "mode": "rules",
@@ -805,11 +805,11 @@
         "expected": [
           "flatline"
         ],
-        "answer": "DT8-M05 (domestic, ZoneH) is HIGH risk with confidence 0.80. It averaged 0.0 kWh/day over the last week against 11.94 before (-100%), pattern flatline. DT8 unmetered energy 5.6% -> 24.7% of input (+19.4 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "answer": "DT8-M05 (domestic, ZoneH) is HIGH risk with confidence 0.80. It averaged 0.0 kWh/day over the last week against 11.94 before (-100%), pattern flatline. DT8 unmetered energy went from 5.6% to 24.7% of input (+19.4 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
         "pass": true,
         "hallucinated_ids": [],
         "mode": "rules",
-        "latency_ms": 3
+        "latency_ms": 2
       },
       {
         "seed": 2002,
@@ -834,7 +834,7 @@
         "pass": false,
         "hallucinated_ids": [],
         "mode": "rules",
-        "latency_ms": 8
+        "latency_ms": 7
       },
       {
         "seed": 2002,
