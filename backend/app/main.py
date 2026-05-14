@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import __version__
 from app.config import get_settings
+from app.api.ai import router as ai_router
 from app.api.routes import router as api_router
 from app.demo_seed import start_demo_seed_if_enabled
 
@@ -36,6 +37,7 @@ app.add_middleware(
 
 # Include API routes from Feature 17
 app.include_router(api_router, prefix="/api/v1")
+app.include_router(ai_router, prefix="/api/v1")
 
 
 @app.on_event("startup")
