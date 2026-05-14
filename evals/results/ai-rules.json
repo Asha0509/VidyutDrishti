@@ -1,0 +1,867 @@
+{
+  "mode": "rules",
+  "run_at": "2026-10-07T14:08:27+00:00",
+  "networks": [
+    2000,
+    2001,
+    2002
+  ],
+  "providers": [],
+  "brief": {
+    "cases": 41,
+    "cause_accuracy": 0.732,
+    "theft_vs_genuine_accuracy": 0.854,
+    "by_truth": {
+      "meter_stop": {
+        "n": 6,
+        "correct": 6,
+        "accuracy": 1.0
+      },
+      "gradual_tampering": {
+        "n": 6,
+        "correct": 1,
+        "accuracy": 0.167
+      },
+      "hook_bypass": {
+        "n": 17,
+        "correct": 13,
+        "accuracy": 0.765
+      },
+      "vacancy": {
+        "n": 12,
+        "correct": 10,
+        "accuracy": 0.833
+      }
+    },
+    "fallbacks": null,
+    "rows": [
+      {
+        "seed": 2000,
+        "meter_id": "DT1-M04",
+        "truth": "meter_stop",
+        "expected": "meter_stopped",
+        "got": "meter_stopped",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT2-M03",
+        "truth": "gradual_tampering",
+        "expected": "gradual_tampering",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT2-M04",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT2-M06",
+        "truth": "meter_stop",
+        "expected": "meter_stopped",
+        "got": "meter_stopped",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT3-M01",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT3-M05",
+        "truth": "gradual_tampering",
+        "expected": "gradual_tampering",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT4-M04",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT4-M05",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT5-M02",
+        "truth": "meter_stop",
+        "expected": "meter_stopped",
+        "got": "meter_stopped",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT5-M05",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT6-M01",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": false,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT6-M04",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT6-M05",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT7-M01",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2000,
+        "meter_id": "DT7-M05",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT1-M02",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": false,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT1-M04",
+        "truth": "gradual_tampering",
+        "expected": "gradual_tampering",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT1-M06",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": false,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT2-M04",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT2-M05",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT3-M05",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT4-M06",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT5-M06",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT7-M01",
+        "truth": "meter_stop",
+        "expected": "meter_stopped",
+        "got": "meter_stopped",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT7-M03",
+        "truth": "gradual_tampering",
+        "expected": "gradual_tampering",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT7-M06",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT8-M03",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "meter_id": "DT8-M06",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": false,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT1-M01",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT2-M02",
+        "truth": "gradual_tampering",
+        "expected": "gradual_tampering",
+        "got": "gradual_tampering",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT3-M05",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT3-M06",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": false,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT4-M01",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT4-M02",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": false,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT4-M03",
+        "truth": "gradual_tampering",
+        "expected": "gradual_tampering",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": false,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT6-M03",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT7-M01",
+        "truth": "meter_stop",
+        "expected": "meter_stopped",
+        "got": "meter_stopped",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT7-M06",
+        "truth": "hook_bypass",
+        "expected": "hook_bypass",
+        "got": "hook_bypass",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT8-M02",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 3
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT8-M04",
+        "truth": "vacancy",
+        "expected": "genuine_drop",
+        "got": "genuine_drop",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      },
+      {
+        "seed": 2002,
+        "meter_id": "DT8-M05",
+        "truth": "meter_stop",
+        "expected": "meter_stopped",
+        "got": "meter_stopped",
+        "mode": "rules",
+        "correct": true,
+        "theft_call_correct": true,
+        "latency_ms": 2
+      }
+    ]
+  },
+  "copilot": {
+    "cases": 30,
+    "pass_rate": 0.8,
+    "hallucinated_answers": 0,
+    "latency_ms_p50": 1,
+    "rows": [
+      {
+        "seed": 2000,
+        "question": "Which zone has the highest estimated monthly loss?",
+        "expected": [
+          "ZoneG"
+        ],
+        "answer": "ZoneG (Rajajinagar, DT7) has the highest estimated loss: \u20b942,532 a month from 2 flagged meters.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 0
+      },
+      {
+        "seed": 2000,
+        "question": "How many meters are flagged right now?",
+        "expected": [
+          "13"
+        ],
+        "answer": "13 of 48 meters are flagged (13 awaiting inspection), estimated \u20b956,314 a month. 6 of 8 zones are at medium or high risk.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2000,
+        "question": "Which meter is at the top of the inspection queue?",
+        "expected": [
+          "DT7-M05"
+        ],
+        "answer": "13 meters are flagged. Inspect these first:\n- DT7-M05 (ZoneG, HIGH): \u20b941,449/month\n- DT5-M02 (ZoneE, HIGH): \u20b92,097/month\n- DT3-M01 (ZoneC, HIGH): \u20b92,007/month\n- DT2-M06 (ZoneB, MEDIUM): \u20b91,642/month\n- DT1-M04 (ZoneA, HIGH): \u20b91,625/month",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 0
+      },
+      {
+        "seed": 2000,
+        "question": "How many meters are high risk?",
+        "expected": [
+          "4"
+        ],
+        "answer": "13 of 48 meters are flagged (13 awaiting inspection), estimated \u20b956,314 a month. 6 of 8 zones are at medium or high risk.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2000,
+        "question": "By how much has DT3-M01's consumption dropped?",
+        "expected": [
+          "89"
+        ],
+        "answer": "DT3-M01 (domestic, ZoneC) is HIGH risk with confidence 0.90. It averaged 1.5 kWh/day over the last week against 13.87 before (-89%), pattern sudden drop. DT3 unmetered energy 2.2% -> 18.5% of input (+20.8 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 2
+      },
+      {
+        "seed": 2000,
+        "question": "What pattern does DT3-M01 show?",
+        "expected": [
+          "sudden"
+        ],
+        "answer": "DT3-M01 (domestic, ZoneC) is HIGH risk with confidence 0.90. It averaged 1.5 kWh/day over the last week against 13.87 before (-89%), pattern sudden drop. DT3 unmetered energy 2.2% -> 18.5% of input (+20.8 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 2
+      },
+      {
+        "seed": 2000,
+        "question": "Which transformer has the highest unmetered energy share on the latest day?",
+        "expected": [
+          "DT7"
+        ],
+        "answer": "Without the AI model I can only answer set questions, for example: 'Which zone is losing the most?', 'Which meters should we inspect first?', 'Tell me about DT1-M03', 'How is DT3's energy balance?' or 'How accurate is the detector?'",
+        "pass": false,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 0
+      },
+      {
+        "seed": 2000,
+        "question": "List the flagged meters in Zone C.",
+        "expected": [
+          "DT3-M01",
+          "DT3-M05"
+        ],
+        "answer": "DT3: unmetered energy was 10.6% of input 28 days ago and 23.0% on the latest day.",
+        "pass": false,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 9
+      },
+      {
+        "seed": 2000,
+        "question": "What is the estimated monthly loss across all flagged meters?",
+        "expected": [
+          "56,314",
+          "56314"
+        ],
+        "answer": "13 of 48 meters are flagged (13 awaiting inspection), estimated \u20b956,314 a month. 6 of 8 zones are at medium or high risk.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2000,
+        "question": "How accurate is the detector on held-out data?",
+        "expected": [
+          "0.8",
+          "0.9"
+        ],
+        "answer": "On 20 unseen synthetic networks the detector averages precision 0.82, recall 0.93 and F1 0.87.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2001,
+        "question": "Which zone has the highest estimated monthly loss?",
+        "expected": [
+          "ZoneB"
+        ],
+        "answer": "ZoneB (Koramangala, DT2) has the highest estimated loss: \u20b932,940 a month from 2 flagged meters.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2001,
+        "question": "How many meters are flagged right now?",
+        "expected": [
+          "11"
+        ],
+        "answer": "11 of 48 meters are flagged (11 awaiting inspection), estimated \u20b989,733 a month. 4 of 8 zones are at medium or high risk.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2001,
+        "question": "Which meter is at the top of the inspection queue?",
+        "expected": [
+          "DT2-M05"
+        ],
+        "answer": "11 meters are flagged. Inspect these first:\n- DT2-M05 (ZoneB, HIGH): \u20b932,171/month\n- DT1-M04 (ZoneA, MEDIUM): \u20b917,279/month\n- DT7-M01 (ZoneG, HIGH): \u20b914,134/month\n- DT8-M06 (ZoneH, REVIEW): \u20b98,046/month\n- DT8-M03 (ZoneH, REVIEW): \u20b97,113/month",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 0
+      },
+      {
+        "seed": 2001,
+        "question": "How many meters are high risk?",
+        "expected": [
+          "2"
+        ],
+        "answer": "11 of 48 meters are flagged (11 awaiting inspection), estimated \u20b989,733 a month. 4 of 8 zones are at medium or high risk.",
+        "pass": false,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2001,
+        "question": "By how much has DT7-M01's consumption dropped?",
+        "expected": [
+          "100"
+        ],
+        "answer": "DT7-M01 (commercial, ZoneG) is HIGH risk with confidence 0.94. It averaged 0.0 kWh/day over the last week against 55.45 before (-100%), pattern flatline. DT7 unmetered energy 5.5% -> 67.2% of input (+135.1 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 4
+      },
+      {
+        "seed": 2001,
+        "question": "What pattern does DT7-M01 show?",
+        "expected": [
+          "flatline"
+        ],
+        "answer": "DT7-M01 (commercial, ZoneG) is HIGH risk with confidence 0.94. It averaged 0.0 kWh/day over the last week against 55.45 before (-100%), pattern flatline. DT7 unmetered energy 5.5% -> 67.2% of input (+135.1 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 2
+      },
+      {
+        "seed": 2001,
+        "question": "Which transformer has the highest unmetered energy share on the latest day?",
+        "expected": [
+          "DT1"
+        ],
+        "answer": "Without the AI model I can only answer set questions, for example: 'Which zone is losing the most?', 'Which meters should we inspect first?', 'Tell me about DT1-M03', 'How is DT3's energy balance?' or 'How accurate is the detector?'",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 0
+      },
+      {
+        "seed": 2001,
+        "question": "List the flagged meters in Zone C.",
+        "expected": [
+          "no"
+        ],
+        "answer": "DT3: unmetered energy was 19.1% of input 28 days ago and 4.1% on the latest day.",
+        "pass": false,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 8
+      },
+      {
+        "seed": 2001,
+        "question": "What is the estimated monthly loss across all flagged meters?",
+        "expected": [
+          "89,733",
+          "89733"
+        ],
+        "answer": "11 of 48 meters are flagged (11 awaiting inspection), estimated \u20b989,733 a month. 4 of 8 zones are at medium or high risk.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2001,
+        "question": "How accurate is the detector on held-out data?",
+        "expected": [
+          "0.8",
+          "0.9"
+        ],
+        "answer": "On 20 unseen synthetic networks the detector averages precision 0.82, recall 0.93 and F1 0.87.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2002,
+        "question": "Which zone has the highest estimated monthly loss?",
+        "expected": [
+          "ZoneA"
+        ],
+        "answer": "ZoneA (Bengaluru Central, DT1) has the highest estimated loss: \u20b97,332 a month from 1 flagged meters.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 0
+      },
+      {
+        "seed": 2002,
+        "question": "How many meters are flagged right now?",
+        "expected": [
+          "12"
+        ],
+        "answer": "12 of 48 meters are flagged (12 awaiting inspection), estimated \u20b921,437 a month. 4 of 8 zones are at medium or high risk.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2002,
+        "question": "Which meter is at the top of the inspection queue?",
+        "expected": [
+          "DT1-M01"
+        ],
+        "answer": "12 meters are flagged. Inspect these first:\n- DT1-M01 (ZoneA, MEDIUM): \u20b97,332/month\n- DT7-M01 (ZoneG, HIGH): \u20b92,271/month\n- DT8-M05 (ZoneH, HIGH): \u20b91,728/month\n- DT7-M06 (ZoneG, HIGH): \u20b91,632/month\n- DT2-M02 (ZoneB, MEDIUM): \u20b91,348/month",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 0
+      },
+      {
+        "seed": 2002,
+        "question": "How many meters are high risk?",
+        "expected": [
+          "3"
+        ],
+        "answer": "12 of 48 meters are flagged (12 awaiting inspection), estimated \u20b921,437 a month. 4 of 8 zones are at medium or high risk.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2002,
+        "question": "By how much has DT8-M05's consumption dropped?",
+        "expected": [
+          "100"
+        ],
+        "answer": "DT8-M05 (domestic, ZoneH) is HIGH risk with confidence 0.80. It averaged 0.0 kWh/day over the last week against 11.94 before (-100%), pattern flatline. DT8 unmetered energy 5.6% -> 24.7% of input (+19.4 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 3
+      },
+      {
+        "seed": 2002,
+        "question": "What pattern does DT8-M05 show?",
+        "expected": [
+          "flatline"
+        ],
+        "answer": "DT8-M05 (domestic, ZoneH) is HIGH risk with confidence 0.80. It averaged 0.0 kWh/day over the last week against 11.94 before (-100%), pattern flatline. DT8 unmetered energy 5.6% -> 24.7% of input (+19.4 kWh/day). That missing energy accounts for this meter's drop, so the load is still being drawn.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 3
+      },
+      {
+        "seed": 2002,
+        "question": "Which transformer has the highest unmetered energy share on the latest day?",
+        "expected": [
+          "DT7"
+        ],
+        "answer": "Without the AI model I can only answer set questions, for example: 'Which zone is losing the most?', 'Which meters should we inspect first?', 'Tell me about DT1-M03', 'How is DT3's energy balance?' or 'How accurate is the detector?'",
+        "pass": false,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 0
+      },
+      {
+        "seed": 2002,
+        "question": "List the flagged meters in Zone C.",
+        "expected": [
+          "DT3-M05",
+          "DT3-M06"
+        ],
+        "answer": "DT3: unmetered energy was 2.8% of input 28 days ago and 15.2% on the latest day.",
+        "pass": false,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 8
+      },
+      {
+        "seed": 2002,
+        "question": "What is the estimated monthly loss across all flagged meters?",
+        "expected": [
+          "21,437",
+          "21437"
+        ],
+        "answer": "12 of 48 meters are flagged (12 awaiting inspection), estimated \u20b921,437 a month. 4 of 8 zones are at medium or high risk.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      },
+      {
+        "seed": 2002,
+        "question": "How accurate is the detector on held-out data?",
+        "expected": [
+          "0.8",
+          "0.9"
+        ],
+        "answer": "On 20 unseen synthetic networks the detector averages precision 0.82, recall 0.93 and F1 0.87.",
+        "pass": true,
+        "hallucinated_ids": [],
+        "mode": "rules",
+        "latency_ms": 1
+      }
+    ]
+  }
+}
