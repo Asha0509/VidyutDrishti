@@ -35,7 +35,7 @@ def compute(
         return round(sum(m in positives for m in top) / len(top), 3) if top else None
 
     sweep = []
-    for th in (0.4, 0.5, 0.55, 0.6, 0.7, 0.8, 0.9):
+    for th in (0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
         f = {s.meter_id for s in scores if s.confidence >= th}
         t = len(f & positives)
         p = t / len(f) if f else 0.0

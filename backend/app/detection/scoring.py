@@ -29,8 +29,8 @@ import numpy as np
 import pandas as pd
 
 TARIFF_INR_PER_KWH = {"domestic": 6.0, "commercial": 9.0, "industrial": 8.0}
-TIERS = [(0.80, "HIGH"), (0.65, "MEDIUM"), (0.55, "REVIEW")]
-FLAG_THRESHOLD = 0.55
+TIERS = [(0.80, "HIGH"), (0.65, "MEDIUM"), (0.50, "REVIEW")]
+FLAG_THRESHOLD = 0.50  # chosen on development networks (seeds 0-19), not the held-out set
 TREND_SIGNAL = True
 
 
@@ -314,9 +314,13 @@ def score_meters(
             l1_strength = l1.strength
         evidence = max(l1_strength, l2_strength * 0.8)
         if explained is not None:
-            conf = evidence * (0.3 + 0.5 * explained) + 0.1 * l2_strength + 0.1 * l3s
+            # The balance is readable: the drop only scores high if the
+            # transformer is still supplying the missing energy.
+            conf = evidence * (0.25 + 0.55 * explained) + 0.1 * l2_strength + 0.1 * l3s * explained
         else:
-            conf = evidence * 0.6 + 0.25 * l2_strength + 0.15 * l3s
+            # No usable transformer evidence: theft and a genuine drop look the
+            # same from the meter alone, so cap below HIGH (max 0.75).
+            conf = evidence * 0.5 + 0.15 * l2_strength + 0.10 * l3s
         conf = round(_clip(conf), 3)
 
         if flat >= 0.6:

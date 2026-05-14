@@ -1,92 +1,86 @@
 {
-  "run_at": "2026-10-07T13:58:34+00:00",
+  "run_at": "2026-10-07T14:05:30+00:00",
   "networks": 20,
   "setup": "8 DTs x 6 meters, 60 days; per network 11 random thefts and 4 vacancy decoys",
   "precision": {
-    "mean": 0.794,
+    "mean": 0.816,
     "min": 0.714,
     "max": 0.917
   },
   "recall": {
-    "mean": 0.964,
+    "mean": 0.932,
     "min": 0.818,
     "max": 1.0
   },
   "f1_score": {
-    "mean": 0.87,
+    "mean": 0.868,
     "min": 0.783,
     "max": 0.957
   },
   "precision_at_10": {
-    "mean": 0.825,
-    "min": 0.6,
-    "max": 0.9
+    "mean": 0.85,
+    "min": 0.7,
+    "max": 1.0
   },
   "threshold_sweep": [
     {
       "threshold": 0.4,
-      "precision": 0.742,
-      "recall": 0.991,
-      "f1": 0.847
+      "precision": 0.784,
+      "recall": 0.973,
+      "f1": 0.867
     },
     {
       "threshold": 0.5,
-      "precision": 0.795,
-      "recall": 0.968,
-      "f1": 0.872
-    },
-    {
-      "threshold": 0.55,
-      "precision": 0.794,
-      "recall": 0.964,
-      "f1": 0.87
+      "precision": 0.816,
+      "recall": 0.932,
+      "f1": 0.868
     },
     {
       "threshold": 0.6,
-      "precision": 0.812,
-      "recall": 0.927,
-      "f1": 0.864
+      "precision": 0.879,
+      "recall": 0.845,
+      "f1": 0.856
     },
     {
       "threshold": 0.7,
-      "precision": 0.86,
-      "recall": 0.732,
-      "f1": 0.784
+      "precision": 0.952,
+      "recall": 0.518,
+      "f1": 0.645
     },
     {
       "threshold": 0.8,
-      "precision": 0.905,
-      "recall": 0.573,
-      "f1": 0.686
+      "precision": 0.933,
+      "recall": 0.323,
+      "f1": 0.457
     },
     {
       "threshold": 0.9,
-      "precision": 0.802,
-      "recall": 0.218,
-      "f1": 0.333
+      "precision": 0.725,
+      "recall": 0.114,
+      "f1": 0.193
     }
   ],
-  "decoys_flagged_rate": 0.637,
+  "decoys_flagged_rate": 0.537,
   "by_theft_kind": {
     "meter_stop": {
       "meters": 43,
-      "caught": 43,
+      "caught": 42,
       "pattern_match": 43,
-      "recall": 1.0,
+      "recall": 0.977,
       "pattern_accuracy": 1.0
     },
     "hook_bypass": {
       "meters": 131,
-      "caught": 129,
+      "caught": 127,
       "pattern_match": 125,
-      "recall": 0.985,
+      "recall": 0.969,
       "pattern_accuracy": 0.954
     },
     "gradual_tampering": {
       "meters": 46,
-      "caught": 40,
+      "caught": 36,
       "pattern_match": 7,
-      "recall": 0.87,
+      "recall": 0.783,
       "pattern_accuracy": 0.152
     }
   },
@@ -122,10 +116,10 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 15,
-          "precision": 0.733,
+          "flagged": 14,
+          "precision": 0.786,
           "recall": 1.0,
-          "f1": 0.846
+          "f1": 0.88
         },
         {
           "threshold": 0.5,
@@ -135,39 +129,32 @@
           "f1": 0.917
         },
         {
-          "threshold": 0.55,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
-        },
-        {
           "threshold": 0.6,
-          "flagged": 13,
-          "precision": 0.846,
+          "flagged": 12,
+          "precision": 0.917,
           "recall": 1.0,
-          "f1": 0.917
+          "f1": 0.957
         },
         {
           "threshold": 0.7,
-          "flagged": 12,
-          "precision": 0.833,
-          "recall": 0.909,
-          "f1": 0.87
+          "flagged": 7,
+          "precision": 1.0,
+          "recall": 0.636,
+          "f1": 0.778
         },
         {
           "threshold": 0.8,
-          "flagged": 11,
-          "precision": 0.909,
-          "recall": 0.909,
-          "f1": 0.909
+          "flagged": 5,
+          "precision": 1.0,
+          "recall": 0.455,
+          "f1": 0.625
         },
         {
           "threshold": 0.9,
-          "flagged": 2,
+          "flagged": 1,
           "precision": 1.0,
-          "recall": 0.182,
-          "f1": 0.308
+          "recall": 0.091,
+          "f1": 0.167
         }
       ]
     },
@@ -176,7 +163,7 @@
       "precision": 0.917,
       "recall": 1.0,
       "f1_score": 0.957,
-      "precision_at_10": 0.9,
+      "precision_at_10": 1.0,
       "decoys_flagged": [
         "DT1-M02"
       ],
@@ -201,10 +188,10 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 14,
-          "precision": 0.786,
+          "flagged": 12,
+          "precision": 0.917,
           "recall": 1.0,
-          "f1": 0.88
+          "f1": 0.957
         },
         {
           "threshold": 0.5,
@@ -214,39 +201,32 @@
           "f1": 0.957
         },
         {
-          "threshold": 0.55,
-          "flagged": 12,
-          "precision": 0.917,
-          "recall": 1.0,
-          "f1": 0.957
-        },
-        {
           "threshold": 0.6,
-          "flagged": 12,
-          "precision": 0.917,
-          "recall": 1.0,
-          "f1": 0.957
+          "flagged": 10,
+          "precision": 1.0,
+          "recall": 0.909,
+          "f1": 0.952
         },
         {
           "threshold": 0.7,
-          "flagged": 11,
-          "precision": 0.909,
-          "recall": 0.909,
-          "f1": 0.909
+          "flagged": 9,
+          "precision": 1.0,
+          "recall": 0.818,
+          "f1": 0.9
         },
         {
           "threshold": 0.8,
-          "flagged": 8,
-          "precision": 1.0,
-          "recall": 0.727,
-          "f1": 0.842
-        },
-        {
-          "threshold": 0.9,
           "flagged": 5,
           "precision": 1.0,
           "recall": 0.455,
           "f1": 0.625
+        },
+        {
+          "threshold": 0.9,
+          "flagged": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
         }
       ]
     },
@@ -285,10 +265,10 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 14,
-          "precision": 0.714,
-          "recall": 0.909,
-          "f1": 0.8
+          "flagged": 12,
+          "precision": 0.75,
+          "recall": 0.818,
+          "f1": 0.783
         },
         {
           "threshold": 0.5,
@@ -298,32 +278,25 @@
           "f1": 0.783
         },
         {
-          "threshold": 0.55,
-          "flagged": 12,
-          "precision": 0.75,
-          "recall": 0.818,
-          "f1": 0.783
-        },
-        {
           "threshold": 0.6,
-          "flagged": 12,
-          "precision": 0.75,
-          "recall": 0.818,
-          "f1": 0.783
+          "flagged": 9,
+          "precision": 0.889,
+          "recall": 0.727,
+          "f1": 0.8
         },
         {
           "threshold": 0.7,
-          "flagged": 7,
-          "precision": 0.857,
-          "recall": 0.545,
-          "f1": 0.667
-        },
-        {
-          "threshold": 0.8,
           "flagged": 3,
           "precision": 1.0,
           "recall": 0.273,
           "f1": 0.429
+        },
+        {
+          "threshold": 0.8,
+          "flagged": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
         },
         {
           "threshold": 0.9,
@@ -336,13 +309,11 @@
     },
     {
       "seed": 1003,
-      "precision": 0.786,
+      "precision": 0.917,
       "recall": 1.0,
-      "f1_score": 0.88,
+      "f1_score": 0.957,
       "precision_at_10": 0.9,
       "decoys_flagged": [
-        "DT6-M01",
-        "DT6-M03",
         "DT8-M01"
       ],
       "missed_thefts": [],
@@ -373,45 +344,38 @@
         },
         {
           "threshold": 0.5,
-          "flagged": 14,
-          "precision": 0.786,
+          "flagged": 12,
+          "precision": 0.917,
           "recall": 1.0,
-          "f1": 0.88
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 14,
-          "precision": 0.786,
-          "recall": 1.0,
-          "f1": 0.88
+          "f1": 0.957
         },
         {
           "threshold": 0.6,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
+          "flagged": 9,
+          "precision": 1.0,
+          "recall": 0.818,
+          "f1": 0.9
         },
         {
           "threshold": 0.7,
-          "flagged": 10,
-          "precision": 0.9,
-          "recall": 0.818,
-          "f1": 0.857
+          "flagged": 6,
+          "precision": 1.0,
+          "recall": 0.545,
+          "f1": 0.706
         },
         {
           "threshold": 0.8,
-          "flagged": 8,
+          "flagged": 5,
           "precision": 1.0,
-          "recall": 0.727,
-          "f1": 0.842
+          "recall": 0.455,
+          "f1": 0.625
         },
         {
           "threshold": 0.9,
-          "flagged": 2,
+          "flagged": 1,
           "precision": 1.0,
-          "recall": 0.182,
-          "f1": 0.308
+          "recall": 0.091,
+          "f1": 0.167
         }
       ]
     },
@@ -420,7 +384,7 @@
       "precision": 0.769,
       "recall": 0.909,
       "f1_score": 0.833,
-      "precision_at_10": 0.8,
+      "precision_at_10": 0.9,
       "decoys_flagged": [
         "DT1-M05",
         "DT4-M06",
@@ -444,20 +408,13 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
-        },
-        {
-          "threshold": 0.5,
           "flagged": 13,
           "precision": 0.769,
           "recall": 0.909,
           "f1": 0.833
         },
         {
-          "threshold": 0.55,
+          "threshold": 0.5,
           "flagged": 13,
           "precision": 0.769,
           "recall": 0.909,
@@ -472,37 +429,36 @@
         },
         {
           "threshold": 0.7,
-          "flagged": 12,
-          "precision": 0.833,
-          "recall": 0.909,
-          "f1": 0.87
+          "flagged": 6,
+          "precision": 1.0,
+          "recall": 0.545,
+          "f1": 0.706
         },
         {
           "threshold": 0.8,
-          "flagged": 11,
-          "precision": 0.818,
-          "recall": 0.818,
-          "f1": 0.818
+          "flagged": 3,
+          "precision": 1.0,
+          "recall": 0.273,
+          "f1": 0.429
         },
         {
           "threshold": 0.9,
-          "flagged": 6,
-          "precision": 0.833,
-          "recall": 0.455,
-          "f1": 0.588
+          "flagged": 2,
+          "precision": 1.0,
+          "recall": 0.182,
+          "f1": 0.308
         }
       ]
     },
     {
       "seed": 1005,
-      "precision": 0.733,
+      "precision": 0.786,
       "recall": 1.0,
-      "f1_score": 0.846,
-      "precision_at_10": 0.8,
+      "f1_score": 0.88,
+      "precision_at_10": 0.9,
       "decoys_flagged": [
         "DT2-M02",
         "DT3-M02",
-        "DT4-M03",
         "DT4-M06"
       ],
       "missed_thefts": [],
@@ -533,45 +489,38 @@
         },
         {
           "threshold": 0.5,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
-        },
-        {
-          "threshold": 0.6,
           "flagged": 14,
           "precision": 0.786,
           "recall": 1.0,
           "f1": 0.88
         },
         {
-          "threshold": 0.7,
-          "flagged": 9,
-          "precision": 0.778,
-          "recall": 0.636,
-          "f1": 0.7
-        },
-        {
-          "threshold": 0.8,
-          "flagged": 6,
+          "threshold": 0.6,
+          "flagged": 12,
           "precision": 0.833,
-          "recall": 0.455,
-          "f1": 0.588
+          "recall": 0.909,
+          "f1": 0.87
         },
         {
-          "threshold": 0.9,
+          "threshold": 0.7,
           "flagged": 4,
           "precision": 1.0,
           "recall": 0.364,
           "f1": 0.533
+        },
+        {
+          "threshold": 0.8,
+          "flagged": 3,
+          "precision": 1.0,
+          "recall": 0.273,
+          "f1": 0.429
+        },
+        {
+          "threshold": 0.9,
+          "flagged": 2,
+          "precision": 1.0,
+          "recall": 0.182,
+          "f1": 0.308
         }
       ]
     },
@@ -580,7 +529,7 @@
       "precision": 0.733,
       "recall": 1.0,
       "f1_score": 0.846,
-      "precision_at_10": 0.8,
+      "precision_at_10": 0.9,
       "decoys_flagged": [
         "DT2-M04",
         "DT5-M02"
@@ -606,10 +555,10 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 17,
-          "precision": 0.647,
+          "flagged": 15,
+          "precision": 0.733,
           "recall": 1.0,
-          "f1": 0.786
+          "f1": 0.846
         },
         {
           "threshold": 0.5,
@@ -619,39 +568,32 @@
           "f1": 0.846
         },
         {
-          "threshold": 0.55,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
-        },
-        {
           "threshold": 0.6,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
+          "flagged": 11,
+          "precision": 0.818,
+          "recall": 0.818,
+          "f1": 0.818
         },
         {
           "threshold": 0.7,
-          "flagged": 9,
-          "precision": 0.889,
-          "recall": 0.727,
-          "f1": 0.8
-        },
-        {
-          "threshold": 0.8,
           "flagged": 6,
           "precision": 1.0,
           "recall": 0.545,
           "f1": 0.706
         },
         {
-          "threshold": 0.9,
-          "flagged": 2,
+          "threshold": 0.8,
+          "flagged": 5,
           "precision": 1.0,
-          "recall": 0.182,
-          "f1": 0.308
+          "recall": 0.455,
+          "f1": 0.625
+        },
+        {
+          "threshold": 0.9,
+          "flagged": 1,
+          "precision": 1.0,
+          "recall": 0.091,
+          "f1": 0.167
         }
       ]
     },
@@ -687,10 +629,10 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 16,
-          "precision": 0.688,
+          "flagged": 15,
+          "precision": 0.733,
           "recall": 1.0,
-          "f1": 0.815
+          "f1": 0.846
         },
         {
           "threshold": 0.5,
@@ -700,52 +642,43 @@
           "f1": 0.846
         },
         {
-          "threshold": 0.55,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
-        },
-        {
           "threshold": 0.6,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
+          "flagged": 13,
+          "precision": 0.769,
+          "recall": 0.909,
+          "f1": 0.833
         },
         {
           "threshold": 0.7,
-          "flagged": 11,
-          "precision": 0.818,
-          "recall": 0.818,
-          "f1": 0.818
+          "flagged": 9,
+          "precision": 0.889,
+          "recall": 0.727,
+          "f1": 0.8
         },
         {
           "threshold": 0.8,
-          "flagged": 9,
-          "precision": 0.778,
-          "recall": 0.636,
-          "f1": 0.7
+          "flagged": 5,
+          "precision": 1.0,
+          "recall": 0.455,
+          "f1": 0.625
         },
         {
           "threshold": 0.9,
-          "flagged": 5,
-          "precision": 0.8,
-          "recall": 0.364,
-          "f1": 0.5
+          "flagged": 3,
+          "precision": 1.0,
+          "recall": 0.273,
+          "f1": 0.429
         }
       ]
     },
     {
       "seed": 1008,
-      "precision": 0.769,
+      "precision": 0.909,
       "recall": 0.909,
-      "f1_score": 0.833,
+      "f1_score": 0.909,
       "precision_at_10": 0.9,
       "decoys_flagged": [
-        "DT1-M01",
-        "DT3-M05",
-        "DT6-M05"
+        "DT3-M05"
       ],
       "missed_thefts": [
         "DT7-M02"
@@ -777,59 +710,54 @@
         },
         {
           "threshold": 0.5,
-          "flagged": 13,
-          "precision": 0.769,
-          "recall": 0.909,
-          "f1": 0.833
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 13,
-          "precision": 0.769,
-          "recall": 0.909,
-          "f1": 0.833
-        },
-        {
-          "threshold": 0.6,
-          "flagged": 13,
-          "precision": 0.769,
-          "recall": 0.909,
-          "f1": 0.833
-        },
-        {
-          "threshold": 0.7,
           "flagged": 11,
           "precision": 0.909,
           "recall": 0.909,
           "f1": 0.909
         },
         {
+          "threshold": 0.6,
+          "flagged": 11,
+          "precision": 0.909,
+          "recall": 0.909,
+          "f1": 0.909
+        },
+        {
+          "threshold": 0.7,
+          "flagged": 9,
+          "precision": 1.0,
+          "recall": 0.818,
+          "f1": 0.9
+        },
+        {
           "threshold": 0.8,
-          "flagged": 8,
-          "precision": 0.875,
+          "flagged": 7,
+          "precision": 1.0,
           "recall": 0.636,
-          "f1": 0.737
+          "f1": 0.778
         },
         {
           "threshold": 0.9,
-          "flagged": 3,
-          "precision": 0.667,
-          "recall": 0.182,
-          "f1": 0.286
+          "flagged": 1,
+          "precision": 1.0,
+          "recall": 0.091,
+          "f1": 0.167
         }
       ]
     },
     {
       "seed": 1009,
-      "precision": 0.846,
-      "recall": 1.0,
-      "f1_score": 0.917,
+      "precision": 0.9,
+      "recall": 0.818,
+      "f1_score": 0.857,
       "precision_at_10": 0.9,
       "decoys_flagged": [
-        "DT1-M03",
-        "DT7-M03"
+        "DT1-M03"
       ],
-      "missed_thefts": [],
+      "missed_thefts": [
+        "DT1-M01",
+        "DT6-M04"
+      ],
       "by_theft_kind": {
         "gradual_tampering": {
           "meters": 1,
@@ -838,7 +766,7 @@
         },
         "hook_bypass": {
           "meters": 7,
-          "caught": 7,
+          "caught": 5,
           "pattern_match": 7
         },
         "meter_stop": {
@@ -857,38 +785,31 @@
         },
         {
           "threshold": 0.5,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
+          "flagged": 10,
+          "precision": 0.9,
+          "recall": 0.818,
+          "f1": 0.857
         },
         {
           "threshold": 0.6,
-          "flagged": 12,
-          "precision": 0.833,
-          "recall": 0.909,
-          "f1": 0.87
+          "flagged": 9,
+          "precision": 1.0,
+          "recall": 0.818,
+          "f1": 0.9
         },
         {
           "threshold": 0.7,
-          "flagged": 8,
-          "precision": 1.0,
-          "recall": 0.727,
-          "f1": 0.842
-        },
-        {
-          "threshold": 0.8,
           "flagged": 7,
           "precision": 1.0,
           "recall": 0.636,
           "f1": 0.778
+        },
+        {
+          "threshold": 0.8,
+          "flagged": 5,
+          "precision": 1.0,
+          "recall": 0.455,
+          "f1": 0.625
         },
         {
           "threshold": 0.9,
@@ -901,15 +822,16 @@
     },
     {
       "seed": 1010,
-      "precision": 0.846,
-      "recall": 1.0,
-      "f1_score": 0.917,
+      "precision": 0.909,
+      "recall": 0.909,
+      "f1_score": 0.909,
       "precision_at_10": 0.9,
       "decoys_flagged": [
-        "DT2-M01",
         "DT6-M03"
       ],
-      "missed_thefts": [],
+      "missed_thefts": [
+        "DT8-M06"
+      ],
       "by_theft_kind": {
         "hook_bypass": {
           "meters": 5,
@@ -918,7 +840,7 @@
         },
         "gradual_tampering": {
           "meters": 4,
-          "caught": 4,
+          "caught": 3,
           "pattern_match": 2
         },
         "meter_stop": {
@@ -930,52 +852,45 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 14,
-          "precision": 0.786,
+          "flagged": 13,
+          "precision": 0.846,
           "recall": 1.0,
-          "f1": 0.88
+          "f1": 0.917
         },
         {
           "threshold": 0.5,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
+          "flagged": 11,
+          "precision": 0.909,
+          "recall": 0.909,
+          "f1": 0.909
         },
         {
           "threshold": 0.6,
-          "flagged": 12,
-          "precision": 0.833,
+          "flagged": 11,
+          "precision": 0.909,
           "recall": 0.909,
-          "f1": 0.87
+          "f1": 0.909
         },
         {
           "threshold": 0.7,
-          "flagged": 9,
-          "precision": 0.889,
-          "recall": 0.727,
-          "f1": 0.8
+          "flagged": 5,
+          "precision": 0.8,
+          "recall": 0.364,
+          "f1": 0.5
         },
         {
           "threshold": 0.8,
-          "flagged": 7,
-          "precision": 0.857,
-          "recall": 0.545,
-          "f1": 0.667
+          "flagged": 3,
+          "precision": 1.0,
+          "recall": 0.273,
+          "f1": 0.429
         },
         {
           "threshold": 0.9,
-          "flagged": 2,
-          "precision": 0.5,
+          "flagged": 1,
+          "precision": 1.0,
           "recall": 0.091,
-          "f1": 0.154
+          "f1": 0.167
         }
       ]
     },
@@ -1018,13 +933,6 @@
           "f1": 0.917
         },
         {
-          "threshold": 0.55,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
-        },
-        {
           "threshold": 0.6,
           "flagged": 13,
           "precision": 0.846,
@@ -1033,37 +941,39 @@
         },
         {
           "threshold": 0.7,
-          "flagged": 9,
-          "precision": 0.889,
-          "recall": 0.727,
-          "f1": 0.8
+          "flagged": 7,
+          "precision": 0.857,
+          "recall": 0.545,
+          "f1": 0.667
         },
         {
           "threshold": 0.8,
-          "flagged": 5,
+          "flagged": 1,
           "precision": 1.0,
-          "recall": 0.455,
-          "f1": 0.625
+          "recall": 0.091,
+          "f1": 0.167
         },
         {
           "threshold": 0.9,
-          "flagged": 3,
-          "precision": 1.0,
-          "recall": 0.273,
-          "f1": 0.429
+          "flagged": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
         }
       ]
     },
     {
       "seed": 1012,
-      "precision": 0.846,
-      "recall": 1.0,
-      "f1_score": 0.917,
+      "precision": 0.833,
+      "recall": 0.909,
+      "f1_score": 0.87,
       "precision_at_10": 0.9,
       "decoys_flagged": [
         "DT3-M01"
       ],
-      "missed_thefts": [],
+      "missed_thefts": [
+        "DT5-M02"
+      ],
       "by_theft_kind": {
         "hook_bypass": {
           "meters": 5,
@@ -1072,7 +982,7 @@
         },
         "meter_stop": {
           "meters": 4,
-          "caught": 4,
+          "caught": 3,
           "pattern_match": 4
         },
         "gradual_tampering": {
@@ -1084,67 +994,62 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 16,
-          "precision": 0.688,
+          "flagged": 14,
+          "precision": 0.786,
           "recall": 1.0,
-          "f1": 0.815
+          "f1": 0.88
         },
         {
           "threshold": 0.5,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
-        },
-        {
-          "threshold": 0.6,
           "flagged": 12,
           "precision": 0.833,
           "recall": 0.909,
           "f1": 0.87
         },
         {
-          "threshold": 0.7,
+          "threshold": 0.6,
           "flagged": 11,
           "precision": 0.909,
           "recall": 0.909,
           "f1": 0.909
         },
         {
-          "threshold": 0.8,
+          "threshold": 0.7,
           "flagged": 8,
+          "precision": 0.875,
+          "recall": 0.636,
+          "f1": 0.737
+        },
+        {
+          "threshold": 0.8,
+          "flagged": 4,
           "precision": 1.0,
-          "recall": 0.727,
-          "f1": 0.842
+          "recall": 0.364,
+          "f1": 0.533
         },
         {
           "threshold": 0.9,
-          "flagged": 3,
+          "flagged": 2,
           "precision": 1.0,
-          "recall": 0.273,
-          "f1": 0.429
+          "recall": 0.182,
+          "f1": 0.308
         }
       ]
     },
     {
       "seed": 1013,
-      "precision": 0.733,
-      "recall": 1.0,
-      "f1_score": 0.846,
-      "precision_at_10": 0.6,
+      "precision": 0.714,
+      "recall": 0.909,
+      "f1_score": 0.8,
+      "precision_at_10": 0.7,
       "decoys_flagged": [
         "DT3-M04",
         "DT4-M04",
         "DT8-M05"
       ],
-      "missed_thefts": [],
+      "missed_thefts": [
+        "DT8-M04"
+      ],
       "by_theft_kind": {
         "hook_bypass": {
           "meters": 8,
@@ -1153,45 +1058,38 @@
         },
         "gradual_tampering": {
           "meters": 3,
-          "caught": 3,
+          "caught": 2,
           "pattern_match": 0
         }
       },
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 16,
-          "precision": 0.688,
+          "flagged": 15,
+          "precision": 0.733,
           "recall": 1.0,
-          "f1": 0.815
+          "f1": 0.846
         },
         {
           "threshold": 0.5,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
-        },
-        {
-          "threshold": 0.6,
           "flagged": 14,
           "precision": 0.714,
           "recall": 0.909,
           "f1": 0.8
         },
         {
+          "threshold": 0.6,
+          "flagged": 13,
+          "precision": 0.692,
+          "recall": 0.818,
+          "f1": 0.75
+        },
+        {
           "threshold": 0.7,
-          "flagged": 9,
-          "precision": 0.667,
+          "flagged": 8,
+          "precision": 0.75,
           "recall": 0.545,
-          "f1": 0.6
+          "f1": 0.632
         },
         {
           "threshold": 0.8,
@@ -1239,10 +1137,10 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
+          "flagged": 14,
+          "precision": 0.714,
+          "recall": 0.909,
+          "f1": 0.8
         },
         {
           "threshold": 0.5,
@@ -1252,36 +1150,29 @@
           "f1": 0.8
         },
         {
-          "threshold": 0.55,
-          "flagged": 14,
-          "precision": 0.714,
-          "recall": 0.909,
-          "f1": 0.8
-        },
-        {
           "threshold": 0.6,
-          "flagged": 10,
-          "precision": 0.8,
-          "recall": 0.727,
-          "f1": 0.762
-        },
-        {
-          "threshold": 0.7,
           "flagged": 6,
           "precision": 0.833,
           "recall": 0.455,
           "f1": 0.588
         },
         {
+          "threshold": 0.7,
+          "flagged": 1,
+          "precision": 1.0,
+          "recall": 0.091,
+          "f1": 0.167
+        },
+        {
           "threshold": 0.8,
-          "flagged": 5,
-          "precision": 0.8,
-          "recall": 0.364,
-          "f1": 0.5
+          "flagged": 1,
+          "precision": 1.0,
+          "recall": 0.091,
+          "f1": 0.167
         },
         {
           "threshold": 0.9,
-          "flagged": 1,
+          "flagged": 0,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0
@@ -1313,20 +1204,13 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
-        },
-        {
-          "threshold": 0.5,
           "flagged": 12,
           "precision": 0.917,
           "recall": 1.0,
           "f1": 0.957
         },
         {
-          "threshold": 0.55,
+          "threshold": 0.5,
           "flagged": 12,
           "precision": 0.917,
           "recall": 1.0,
@@ -1341,17 +1225,17 @@
         },
         {
           "threshold": 0.7,
-          "flagged": 10,
-          "precision": 0.9,
-          "recall": 0.818,
-          "f1": 0.857
+          "flagged": 8,
+          "precision": 0.875,
+          "recall": 0.636,
+          "f1": 0.737
         },
         {
           "threshold": 0.8,
-          "flagged": 6,
+          "flagged": 3,
           "precision": 1.0,
-          "recall": 0.545,
-          "f1": 0.706
+          "recall": 0.273,
+          "f1": 0.429
         },
         {
           "threshold": 0.9,
@@ -1364,16 +1248,18 @@
     },
     {
       "seed": 1016,
-      "precision": 0.786,
-      "recall": 1.0,
-      "f1_score": 0.88,
-      "precision_at_10": 0.8,
+      "precision": 0.769,
+      "recall": 0.909,
+      "f1_score": 0.833,
+      "precision_at_10": 0.7,
       "decoys_flagged": [
         "DT5-M06",
         "DT6-M01",
         "DT6-M03"
       ],
-      "missed_thefts": [],
+      "missed_thefts": [
+        "DT1-M05"
+      ],
       "by_theft_kind": {
         "hook_bypass": {
           "meters": 6,
@@ -1382,7 +1268,7 @@
         },
         "gradual_tampering": {
           "meters": 3,
-          "caught": 3,
+          "caught": 2,
           "pattern_match": 1
         },
         "meter_stop": {
@@ -1401,38 +1287,31 @@
         },
         {
           "threshold": 0.5,
-          "flagged": 14,
-          "precision": 0.786,
-          "recall": 1.0,
-          "f1": 0.88
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 14,
-          "precision": 0.786,
-          "recall": 1.0,
-          "f1": 0.88
+          "flagged": 13,
+          "precision": 0.769,
+          "recall": 0.909,
+          "f1": 0.833
         },
         {
           "threshold": 0.6,
-          "flagged": 13,
-          "precision": 0.846,
-          "recall": 1.0,
-          "f1": 0.917
+          "flagged": 10,
+          "precision": 0.9,
+          "recall": 0.818,
+          "f1": 0.857
         },
         {
           "threshold": 0.7,
-          "flagged": 7,
-          "precision": 0.857,
-          "recall": 0.545,
-          "f1": 0.667
-        },
-        {
-          "threshold": 0.8,
           "flagged": 3,
           "precision": 1.0,
           "recall": 0.273,
           "f1": 0.429
+        },
+        {
+          "threshold": 0.8,
+          "flagged": 1,
+          "precision": 1.0,
+          "recall": 0.091,
+          "f1": 0.167
         },
         {
           "threshold": 0.9,
@@ -1477,20 +1356,13 @@
       "threshold_sweep": [
         {
           "threshold": 0.4,
-          "flagged": 15,
-          "precision": 0.733,
-          "recall": 1.0,
-          "f1": 0.846
-        },
-        {
-          "threshold": 0.5,
           "flagged": 12,
           "precision": 0.833,
           "recall": 0.909,
           "f1": 0.87
         },
         {
-          "threshold": 0.55,
+          "threshold": 0.5,
           "flagged": 11,
           "precision": 0.818,
           "recall": 0.818,
@@ -1498,50 +1370,52 @@
         },
         {
           "threshold": 0.6,
-          "flagged": 11,
-          "precision": 0.818,
-          "recall": 0.818,
-          "f1": 0.818
-        },
-        {
-          "threshold": 0.7,
-          "flagged": 10,
-          "precision": 0.9,
-          "recall": 0.818,
-          "f1": 0.857
-        },
-        {
-          "threshold": 0.8,
           "flagged": 9,
           "precision": 1.0,
           "recall": 0.818,
           "f1": 0.9
         },
         {
-          "threshold": 0.9,
+          "threshold": 0.7,
+          "flagged": 3,
+          "precision": 1.0,
+          "recall": 0.273,
+          "f1": 0.429
+        },
+        {
+          "threshold": 0.8,
           "flagged": 2,
           "precision": 1.0,
           "recall": 0.182,
           "f1": 0.308
+        },
+        {
+          "threshold": 0.9,
+          "flagged": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
         }
       ]
     },
     {
       "seed": 1018,
-      "precision": 0.786,
-      "recall": 1.0,
-      "f1_score": 0.88,
-      "precision_at_10": 0.7,
+      "precision": 0.769,
+      "recall": 0.909,
+      "f1_score": 0.833,
+      "precision_at_10": 0.8,
       "decoys_flagged": [
         "DT2-M02",
         "DT5-M01",
         "DT5-M03"
       ],
-      "missed_thefts": [],
+      "missed_thefts": [
+        "DT6-M04"
+      ],
       "by_theft_kind": {
         "gradual_tampering": {
           "meters": 2,
-          "caught": 2,
+          "caught": 1,
           "pattern_match": 0
         },
         "hook_bypass": {
@@ -1565,58 +1439,50 @@
         },
         {
           "threshold": 0.5,
-          "flagged": 14,
-          "precision": 0.786,
-          "recall": 1.0,
-          "f1": 0.88
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 14,
-          "precision": 0.786,
-          "recall": 1.0,
-          "f1": 0.88
+          "flagged": 13,
+          "precision": 0.769,
+          "recall": 0.909,
+          "f1": 0.833
         },
         {
           "threshold": 0.6,
-          "flagged": 12,
-          "precision": 0.75,
-          "recall": 0.818,
-          "f1": 0.783
+          "flagged": 10,
+          "precision": 0.7,
+          "recall": 0.636,
+          "f1": 0.667
         },
         {
           "threshold": 0.7,
-          "flagged": 8,
-          "precision": 0.625,
-          "recall": 0.455,
-          "f1": 0.526
+          "flagged": 4,
+          "precision": 1.0,
+          "recall": 0.364,
+          "f1": 0.533
         },
         {
           "threshold": 0.8,
-          "flagged": 7,
-          "precision": 0.571,
-          "recall": 0.364,
-          "f1": 0.444
+          "flagged": 2,
+          "precision": 1.0,
+          "recall": 0.182,
+          "f1": 0.308
         },
         {
           "threshold": 0.9,
-          "flagged": 4,
-          "precision": 0.75,
-          "recall": 0.273,
-          "f1": 0.4
+          "flagged": 2,
+          "precision": 1.0,
+          "recall": 0.182,
+          "f1": 0.308
         }
       ]
     },
     {
       "seed": 1019,
-      "precision": 0.714,
+      "precision": 0.769,
       "recall": 0.909,
-      "f1_score": 0.8,
+      "f1_score": 0.833,
       "precision_at_10": 0.9,
       "decoys_flagged": [
         "DT3-M05",
         "DT7-M02",
-        "DT7-M03",
         "DT7-M06"
       ],
       "missed_thefts": [
@@ -1649,24 +1515,17 @@
         },
         {
           "threshold": 0.5,
-          "flagged": 14,
-          "precision": 0.714,
+          "flagged": 13,
+          "precision": 0.769,
           "recall": 0.909,
-          "f1": 0.8
-        },
-        {
-          "threshold": 0.55,
-          "flagged": 14,
-          "precision": 0.714,
-          "recall": 0.909,
-          "f1": 0.8
+          "f1": 0.833
         },
         {
           "threshold": 0.6,
-          "flagged": 12,
-          "precision": 0.833,
-          "recall": 0.909,
-          "f1": 0.87
+          "flagged": 10,
+          "precision": 0.9,
+          "recall": 0.818,
+          "f1": 0.857
         },
         {
           "threshold": 0.7,
@@ -1684,10 +1543,10 @@
         },
         {
           "threshold": 0.9,
-          "flagged": 3,
+          "flagged": 2,
           "precision": 1.0,
-          "recall": 0.273,
-          "f1": 0.429
+          "recall": 0.182,
+          "f1": 0.308
         }
       ]
     }
