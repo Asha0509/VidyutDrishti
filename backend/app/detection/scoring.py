@@ -190,7 +190,7 @@ def score_meters(
     # ── L2: ratio relative to DT peers (median of the other meters) ──
     rel = pd.Series(1.0, index=mat.index)
     peer_med = pd.Series(1.0, index=mat.index)
-    for dt_id, members in topo.groupby("dt_id").groups.items():
+    for dt_id, members in topo.groupby("dt_id").groups.items():  # noqa: B007 - dt_id unused here, loop shape matches the balance loop below
         ids = [m for m in members if m in ratio.index]
         for m in ids:
             peers = ratio[[x for x in ids if x != m]]

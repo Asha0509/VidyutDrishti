@@ -42,7 +42,7 @@ def resolve_holidays(cfg: SimConfig) -> set[date]:
         in_hols = _hols.country_holidays("IN", subdiv="KA", years=years)
     except Exception:
         in_hols = _hols.country_holidays("IN", years=years)
-    return {d for d in in_hols.keys() if cfg.start_date <= d < end}
+    return {d for d in in_hols if cfg.start_date <= d < end}
 
 
 def build_daily_multiplier(

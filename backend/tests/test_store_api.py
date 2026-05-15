@@ -4,7 +4,6 @@ import httpx
 import pandas as pd
 import pytest
 import pytest_asyncio
-
 from app.store import Store, infer_topology
 
 
@@ -12,7 +11,7 @@ def slots_from_daily(daily: pd.DataFrame, value_col: str, id_col: str) -> pd.Dat
     """Expand daily kWh into 96 equal slots using the simulator convention (slot = daily rate)."""
     rows = []
     for r in daily.itertuples(index=False):
-        d = getattr(r, "date")
+        d = r.date
         for i in range(96):
             rows.append({id_col: getattr(r, id_col), "ts": datetime.combine(d, datetime.min.time()) + timedelta(minutes=15 * i),
                          value_col: getattr(r, value_col)})
@@ -28,8 +27,8 @@ def seeded(network, monkeypatch):
     s.set_truth([{"meter_id": "DT1-M02", "kind": "hook_bypass", "start_day": 25}],
                 [{"meter_id": "DT2-M04", "kind": "vacancy"}], date(2026, 1, 1))
     s.ready = True
-    import app.store as store_mod
     import app.api.routes as routes
+    import app.store as store_mod
     monkeypatch.setattr(store_mod, "store", s)
     monkeypatch.setattr(routes, "store", s)
     return s

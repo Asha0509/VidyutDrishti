@@ -2,18 +2,19 @@
 from __future__ import annotations
 
 import os
+
+# Make `app` importable when alembic is run from the repo root.
+import sys
 from logging.config import fileConfig
+from pathlib import Path
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-# Make `app` importable when alembic is run from the repo root.
-import sys
-from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "backend"))
 
-from app.db.base import Base  # noqa: E402
-from app.db import models  # noqa: F401, E402 - registers metadata
+from app.db import models  # noqa: F401 - registers metadata
+from app.db.base import Base
 
 config = context.config
 

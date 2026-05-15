@@ -13,8 +13,7 @@ from typing import Any, Dict, Iterable, List, Optional
 
 import pandas as pd
 
-from app.detection.scoring import (FLAG_THRESHOLD, MeterScore, daily_from_slots, rank_queue,
-                                   score_meters)
+from app.detection.scoring import FLAG_THRESHOLD, MeterScore, daily_from_slots, rank_queue, score_meters
 from app.evaluation import live as live_eval
 
 # Bengaluru localities used to place the synthetic DTs on the map.

@@ -18,7 +18,7 @@ import os
 import random
 import statistics
 import sys
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -26,9 +26,9 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "backend"))
 
 import yaml  # noqa: E402
-
 from app.detection.scoring import daily_from_slots, rank_queue, score_meters  # noqa: E402
 from app.evaluation.live import compute  # noqa: E402
+
 from simulator.dataset import build_dataset  # noqa: E402
 from simulator.models import SimConfig  # noqa: E402
 
@@ -105,7 +105,7 @@ def main() -> int:
         sweep.append({"threshold": row["threshold"], **{k: round(statistics.mean(p[k] for p in pts), 3)
                                                          for k in ("precision", "recall", "f1")}})
     report = {
-        "run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "run_at": datetime.now(UTC).isoformat(timespec="seconds"),
         "networks": args.networks,
         "setup": "8 DTs x 6 meters, 60 days; per network 11 random thefts and 4 vacancy decoys",
         "precision": stat("precision"), "recall": stat("recall"), "f1_score": stat("f1_score"),

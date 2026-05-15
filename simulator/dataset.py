@@ -20,7 +20,6 @@ from .load_model import build_daily_multiplier, build_diurnal_profile, resolve_h
 from .models import SimConfig
 from .scenarios import apply_decoy, apply_theft
 
-
 # ---------------------------------------------------------------------------
 # Topology
 # ---------------------------------------------------------------------------

@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import time
 from datetime import timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from app import store as store_mod
 from app.ai import llm, observability

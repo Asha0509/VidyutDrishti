@@ -6,9 +6,7 @@ Evaluates day-7 match accuracy (eval target: 85% within ±10%).
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timedelta
 
-import numpy as np
 import pandas as pd
 
 from .baselines import baseline_comparison
@@ -33,7 +31,7 @@ class BacktestReport:
     model_version: str
     total_rows: int
     overall_mape: float
-    baseline_result: "BaselineResult"  # Forward reference resolved at runtime
+    baseline_result: BaselineResult  # Forward reference resolved at runtime
     day7_match: Day7MatchResult
     horizon_mapes: dict[int, float]  # MAPE by horizon day (1-7)
 

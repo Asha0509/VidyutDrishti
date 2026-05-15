@@ -141,7 +141,7 @@ def _pct(values: List[float], p: float) -> Optional[float]:
     if not values:
         return None
     s = sorted(values)
-    k = max(0, min(len(s) - 1, int(round(p / 100 * (len(s) - 1)))))
+    k = max(0, min(len(s) - 1, round(p / 100 * (len(s) - 1))))
     return round(s[k], 1)
 
 

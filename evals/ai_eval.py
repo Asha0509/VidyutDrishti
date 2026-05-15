@@ -24,7 +24,7 @@ import os
 import re
 import sys
 import time
-from datetime import date, datetime, timezone
+from datetime import UTC, datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -36,6 +36,7 @@ from app import store as store_mod  # noqa: E402
 from app.ai import agents, llm  # noqa: E402
 from app.store import Store  # noqa: E402
 from detection_eval import random_network  # noqa: E402
+
 from simulator.dataset import build_dataset  # noqa: E402
 
 EXPECTED_CAUSE = {"hook_bypass": "hook_bypass", "gradual_tampering": "gradual_tampering", "meter_stop": "meter_stopped",
@@ -153,7 +154,7 @@ def main() -> int:
         print("agent mode needs GROQ_API_KEY or NVIDIA_NIM_API_KEY")
         return 2
     seeds = list(range(args.first_seed, args.first_seed + args.networks))
-    report = {"mode": args.mode, "run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    report = {"mode": args.mode, "run_at": datetime.now(UTC).isoformat(timespec="seconds"),
               "networks": seeds, "providers": llm.configured_providers() if use_llm else [],
               "brief": eval_briefs(seeds, use_llm, args.delay),
               "copilot": eval_copilot(seeds, use_llm, args.delay)}

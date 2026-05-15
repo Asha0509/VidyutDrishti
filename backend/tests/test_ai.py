@@ -1,11 +1,10 @@
 import json
-from datetime import date
 
 import httpx
 import pytest
 import pytest_asyncio
-
 from app.ai import agents, alerts, llm, observability, tools
+
 from tests.test_store_api import slots_from_daily
 
 
@@ -56,9 +55,9 @@ def fake(monkeypatch):
 
 @pytest.fixture
 def data(network, monkeypatch):
-    from app.store import Store
-    import app.store as store_mod
     import app.api.routes as routes
+    import app.store as store_mod
+    from app.store import Store
     daily, dt, topo = network(thefts={"DT1-M02": (25, 0.9, "step"), "DT2-M03": (20, 0.9, "ramp")},
                               vacancies={"DT3-M05": (25, 0.9)}, days=45, dts=3)
     s = Store()
@@ -151,8 +150,8 @@ def test_digest_with_llm(data, fake):
 
 @pytest_asyncio.fixture
 async def client(data):
-    from app.main import app
     import app.api.ai as ai_api
+    from app.main import app
     ai_api._hits.clear()
     ai_api._brief_cache.clear()
     async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://t") as c:

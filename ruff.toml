@@ -1,0 +1,36 @@
+line-length = 120
+target-version = "py311"
+extend-exclude = [
+  "frontend",
+  "snapshots",
+  "logs",
+  # Prototype modules from the original feature-by-feature build. The API does not import them
+  # (it serves from the in-memory store); they are kept for the ingestion CLI and are out of scope here.
+  "backend/app/audit",
+  "backend/app/db",
+  "backend/app/features",
+  "backend/app/feedback",
+  "backend/app/forecasting",
+  "backend/app/inspection",
+  "backend/app/ingestion",
+  "backend/app/risk",
+  "backend/app/evaluation/backtest.py",
+  "backend/app/evaluation/harness.py",
+  "backend/app/evaluation/baselines.py",
+  "backend/app/detection/classifier.py",
+  "backend/app/detection/confidence.py",
+  "backend/app/detection/layer0_balance.py",
+  "backend/app/detection/layer1_zscore.py",
+  "backend/app/detection/layer2_peer.py",
+  "backend/app/detection/layer3_isoforest.py",
+  "build_ppt.py", "generate_custom_doc.py", "update_slide9.py", "update_slide10.py", "fix_committer.py",
+  "run_prototype.py", "ingest_simulator_data.py", "show_synthetic_data.py", "test_api.py",
+]
+
+[lint]
+select = ["E", "F", "W", "I", "B", "UP", "RUF", "SIM"]
+ignore = ["E741", "B904", "B905", "SIM108", "SIM115", "RUF005", "RUF059", "UP006", "UP035", "UP045", "E501", "B008", "RUF012", "RUF001", "RUF002", "RUF003", "UP042"]
+
+[lint.per-file-ignores]
+"tests/**" = ["E402"]
+"backend/tests/**" = ["E402"]

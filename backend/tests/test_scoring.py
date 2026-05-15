@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 import numpy as np
 import pandas as pd
 import pytest
-
 from app.detection import scoring as sc
 
 

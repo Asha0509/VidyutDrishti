@@ -23,7 +23,6 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "backend"))
 
 from app.detection.layer1_zscore import ZScoreAnalyzer
-from app.detection.layer2_peer import PeerAnalyzer
 from app.inspection.queue import InspectionQueue
 
 
@@ -32,44 +31,44 @@ class TestEndToEndFlow(unittest.TestCase):
 
     def test_data_ingestion_components(self) -> None:
         """E2E: Verify ingestion components import correctly."""
-        from app.ingestion.readers import CSVReader
-        from app.ingestion.quality import apply_quality_gate
         from app.ingestion.loader import load_meter_readings
-        
+        from app.ingestion.quality import apply_quality_gate
+        from app.ingestion.readers import CSVReader
+
         # Verify components available
         self.assertTrue(callable(CSVReader))
         self.assertTrue(callable(apply_quality_gate))
         self.assertTrue(callable(load_meter_readings))
-    
+
     def test_detection_pipeline(self) -> None:
         """E2E: Sample data → Z-score detection → Results."""
         import pandas as pd
-        
+
         # Create sample meter data
         meter_data = pd.DataFrame({
             "meter_id": ["M001"] * 20,
             "date": pd.date_range("2024-01-01", periods=20, freq="D"),
             "kwh": [100.0] * 15 + [50.0] * 5,  # Drop in last 5 days
         })
-        
+
         # Create topology
         topology = pd.DataFrame({
             "meter_id": ["M001"],
             "dt_id": ["DT001"],
             "feeder_id": ["F001"],
         })
-        
+
         # Run detection
         analyzer = ZScoreAnalyzer(lookback_days=14)
         results = analyzer.analyze_batch(meter_data, topology, target_date=date(2024, 1, 20))
-        
+
         # Verify detection ran
         self.assertIsInstance(results, list)
-        
+
     def test_inspection_queue_generation(self) -> None:
         """E2E: Detection results → Queue generation."""
         import pandas as pd
-        
+
         # Mock detection results
         detection_df = pd.DataFrame({
             "meter_id": ["M001", "M002"],
@@ -82,42 +81,42 @@ class TestEndToEndFlow(unittest.TestCase):
             "anomaly_type": ["sudden_drop", "normal"],
             "description": ["40% drop", "Normal consumption"],
         })
-        
+
         leakage_df = pd.DataFrame({
             "meter_id": ["M001", "M002"],
             "estimated_inr_lost": [1000.0, 0.0],
         })
-        
+
         topology_df = pd.DataFrame({
             "meter_id": ["M001", "M002"],
             "dt_id": ["DT001", "DT001"],
             "feeder_id": ["F001", "F001"],
             "zone": ["ZoneA", "ZoneA"],
         })
-        
+
         # Generate queue
         queue = InspectionQueue(max_queue_size=10)
         items = queue.generate(detection_df, leakage_df, topology_df, date(2024, 1, 15))
-        
+
         # Verify queue generated (only M001 qualifies)
         self.assertEqual(len(items), 1)
         self.assertEqual(items[0].meter_id, "M001")
-    
+
     def test_detection_layers_consistency(self) -> None:
         """E2E: All detection layers produce consistent output format."""
         from app.detection import (
             BalanceAnalyzer,
-            ZScoreAnalyzer, 
             PeerAnalyzer,
+            ZScoreAnalyzer,
         )
-        
+
         # Verify all analyzers have required methods
         analyzers = [
             BalanceAnalyzer(),
             ZScoreAnalyzer(),
             PeerAnalyzer(),
         ]
-        
+
         for analyzer in analyzers:
             self.assertTrue(hasattr(analyzer, 'analyze'))
             self.assertTrue(hasattr(analyzer, 'analyze_batch'))
@@ -130,7 +129,7 @@ class TestDockerComposeConfig(unittest.TestCase):
         """docker-compose.yml present in repo root."""
         compose_file = REPO / "docker-compose.yml"
         self.assertTrue(compose_file.exists(), "docker-compose.yml not found")
-    
+
     def test_backend_dockerfile_exists(self) -> None:
         """Backend Dockerfile present in infra directory."""
         dockerfile = REPO / "infra" / "Dockerfile.backend"
@@ -144,42 +143,37 @@ class TestSystemIntegration(unittest.TestCase):
         """All detection modules can be imported."""
         from app.detection import (
             BalanceAnalyzer,
-            ZScoreAnalyzer,
             PeerAnalyzer,
-            IsoForestAnalyzer,
-            ConfidenceEngine,
-            LayerSignals,
-            BehaviouralClassifier,
-            AnomalyType,
+            ZScoreAnalyzer,
         )
-        
+
         # Verify all exports work
         self.assertTrue(callable(BalanceAnalyzer))
         self.assertTrue(callable(ZScoreAnalyzer))
         self.assertTrue(callable(PeerAnalyzer))
-    
+
     def test_evaluation_pipeline(self) -> None:
         """Evaluation harness can evaluate mock results."""
         from app.evaluation.harness import (
+            DetectionPrediction,
             EvaluationHarness,
             GroundTruthLabel,
-            DetectionPrediction,
         )
-        
+
         harness = EvaluationHarness()
-        
+
         ground_truth = [
             GroundTruthLabel("M1", date(2024, 1, 15), True, "theft"),
             GroundTruthLabel("M2", date(2024, 1, 15), False, "normal"),
         ]
-        
+
         predictions = [
             DetectionPrediction("M1", date(2024, 1, 15), 0.85, True),
             DetectionPrediction("M2", date(2024, 1, 15), 0.2, False),
         ]
-        
+
         result = harness.evaluate(ground_truth, predictions, "integration_test")
-        
+
         self.assertEqual(result.metrics.accuracy, 1.0)
         self.assertEqual(result.metrics.true_positives, 1)
         self.assertEqual(result.metrics.true_negatives, 1)
