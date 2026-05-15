@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   backend:
     runs-on: ubuntu-latest
@@ -19,6 +22,7 @@ jobs:
           cache: pip
           cache-dependency-path: backend/pyproject.toml
       - run: pip install -e "backend[dev]" pyyaml pytest-asyncio httpx
+      - run: ruff check .
       - name: Unit, API and AI tests (fake LLM, no network)
         working-directory: backend
         run: python -m pytest
@@ -26,6 +30,17 @@ jobs:
         run: python -m pytest tests/e2e -q
       - name: Detection eval on 20 held-out networks (gate on recall)
         run: python evals/detection_eval.py --networks 20 --first-seed 1000 --gate-recall 0.85 --out /tmp/detection.json
+      - name: Eval summary
+        if: always()
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, os
+          if os.path.exists("/tmp/detection.json"):
+              d = json.load(open("/tmp/detection.json"))
+              print("### Held-out detection (20 unseen networks)")
+              for k in ("precision", "recall", "f1_score", "precision_at_10"):
+                  print(f"- {k}: {d[k]['mean']}")
+          PY
       - name: AI eval, rules baseline
         run: python evals/ai_eval.py --mode rules --out /tmp/ai-rules.json
       - name: AI eval, agent (only when a GROQ_API_KEY secret is set)
@@ -44,5 +59,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: npm install
+      - run: npm ci
       - run: npm run build

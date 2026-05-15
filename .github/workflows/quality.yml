@@ -1,0 +1,32 @@
+name: Code quality
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install ruff vulture xenon radon
+      - name: Lint
+        run: ruff check .
+      - name: Dead code
+        run: vulture backend/app/api backend/app/ai backend/app/store.py backend/app/detection/scoring.py backend/app/main.py backend/app/demo_seed.py backend/app/forecast backend/app/evaluation/live.py simulator evals --min-confidence 80 --ignore-names on
+      - name: Complexity report (advisory)
+        run: radon cc backend/app/api backend/app/ai backend/app/store.py backend/app/detection/scoring.py backend/app/main.py backend/app/demo_seed.py backend/app/forecast backend/app/evaluation/live.py simulator evals -s -n C || true
+      - name: Complexity gate (nothing worse than F per block, modules D or better)
+        run: xenon --max-absolute F --max-modules D --max-average B backend/app/api backend/app/ai backend/app/store.py backend/app/detection/scoring.py backend/app/main.py backend/app/demo_seed.py backend/app/forecast backend/app/evaluation/live.py simulator evals
+  duplication:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Copy-paste detection
+        run: npx --yes jscpd@4 --min-lines 14 --threshold 10 --ignore "**/node_modules/**,**/tests/**,**/*.json,**/dist/**,**/snapshots/**" backend/app/api backend/app/ai backend/app/store.py backend/app/detection/scoring.py simulator evals frontend/src
