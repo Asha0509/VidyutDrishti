@@ -24,7 +24,7 @@ actual demand: 78.7% against a nominal 80%.
 
 ## Decision
 
-The shipped model is the seasonal mean. Chronos-Bolt is about 10% better on MASE, but it needs PyTorch (hundreds of MB)
+The shipped model is the seasonal mean. Chronos-Bolt is about 11% better on MASE (0.73 against 0.83), but it needs PyTorch (hundreds of MB)
 and does not fit the 512 MB server. It is available as an opt-in backend (`FORECAST_MODEL=chronos`) that falls back to
 the seasonal model if it cannot load. An ONNX export would be the way to ship it; that is not done.
 

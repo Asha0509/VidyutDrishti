@@ -11,6 +11,8 @@
 
 **Contents:** [Problem](#problem-statement) · [Solution](#solution) · [File structure](#file-structure) · [User flow](#user-flow) · [LLD](#low-level-design-lld) · [HLD](#high-level-design-hld) · [Scaling](#how-it-would-scale) · [USP](#usp-what-is-different-and-why-it-is-better) · [Tools](#tools-and-software-used) · [Principles](#principles-used) · [Requirements](#functional-and-non-functional-requirements) · [Results](#results) · [CI/CD](#engineering-quality-and-cicd) · [Run it](#run-it) · [Limits](#limits)
 
+**Documentation (`docs/`):** [Architecture](docs/architecture.md) (diagrams: components, data flow, detection layers, AI failover, MCP, Render) · [High-level design](docs/HLD.md) (problem, goals, AI versus deterministic boundaries, trade-offs) · [Low-level design](docs/LLD.md) (modules, formulas, schemas, tests) · [Results](docs/results.md) (setup first, then numbers against baselines, and what did not work) · [Error log](docs/errorlog.md) (what broke and how it was fixed) · [Forecast benchmark](docs/FORECAST_BENCHMARK.md) · [Simulator realism](docs/SIMULATOR_REALISM.md) · [Build order](docs/features.md) · [Feedback debugging notes](docs/FEEDBACK_DEBUGGING_SUMMARY.md)
+
 ## Problem statement
 
 Indian electricity distribution companies lose a large share of the energy they buy to aggregate technical and commercial (AT&C) losses, and theft is a big part of the commercial side: hooks on the line, bypassed or stopped meters, slow tampering. Smart meters now report every 15 minutes, but inspection teams are small. So the real question is not "is anything wrong somewhere?" but:
@@ -97,8 +99,8 @@ vidyutdrishti/
 │   ├── real_data.py, realism_eval.py, calibrate_simulator.py  compare and calibrate the simulator against real London households
 │   ├── forecast_benchmark.py                   forecast benchmark on real data
 │   └── results/                                published JSON results
-├── tests/e2e/                                  end-to-end test through the API
-├── docs/                                       SIMULATOR_REALISM.md, FORECAST_BENCHMARK.md, features.md (build order), FEEDBACK_DEBUGGING_SUMMARY.md, images/
+├── tests/e2e/                                  end-to-end tests of the prototype pipeline and compose files (the API is tested in backend/tests)
+├── docs/                                       architecture.md, HLD.md, LLD.md, results.md, errorlog.md, SIMULATOR_REALISM.md, FORECAST_BENCHMARK.md, features.md (build order), FEEDBACK_DEBUGGING_SUMMARY.md, images/
 ├── db/                                         migrations/ and seed/: TimescaleDB schema and tariff/holiday seeds (prototype)
 ├── logs/                                       per-feature build notes and tests from the original build
 └── frontend/src/
@@ -161,6 +163,8 @@ flowchart TD
 
 ## Low-level design (LLD)
 
+This section is a summary. The full per-module design (signatures, formulas, schemas, error handling, tests) is in [docs/LLD.md](docs/LLD.md).
+
 ### One day of scoring
 
 ```mermaid
@@ -216,7 +220,7 @@ Four independent checks run every day for every meter. None of them flags a mete
 
 | Layer | What it checks | Why it's there |
 |---|---|---|
-| **L0 Transformer balance** | Share of transformer input that no meter recorded, last 7 days vs the 14 before. If it rose by more than the noise floor, a subset search finds which meters' drops explain the extra missing energy. Too small to see means "inconclusive", not "fine". | The physical evidence: energy that went in but wasn't billed. It also separates theft (energy still drawn) from a vacant house (energy genuinely not used). |
+| **L0 Transformer balance** | Share of transformer input that no meter recorded, last 7 days vs the first 14 days of history. If it rose by more than the noise floor, a subset search finds which meters' drops explain the extra missing energy. Too small to see means "inconclusive", not "fine". | The physical evidence: energy that went in but wasn't billed. It also separates theft (energy still drawn) from a vacant house (energy genuinely not used). |
 | **L1 Own history** | Last 7 days vs the meter's own 14-day baseline (z-score), plus a separate 3-week trend test for step-by-step tampering. | Catches sudden drops and slow declines. |
 | **L2 Neighbours** | The drop relative to the median of the other meters on the same transformer. | Weather, festivals and outages hit neighbours too, so they cancel out. |
 | **L3 Outlier model** | Isolation forest over drop ratio, gap to neighbours, zero-usage days and trend. | Catches combinations the rules miss; adds weight only. |
@@ -238,6 +242,8 @@ Models: Groq `openai/gpt-oss-120b` first, NVIDIA NIM `openai/gpt-oss-20b` as fal
 
 ## High-level design (HLD)
 
+This section is a summary. The full design (goals and non-goals, boundaries, failure modes, security, alternatives rejected) is in [docs/HLD.md](docs/HLD.md), with more diagrams in [docs/architecture.md](docs/architecture.md).
+
 ```mermaid
 flowchart LR
     subgraph Data
@@ -252,7 +258,7 @@ flowchart LR
         TOOLS["8 read-only data tools"]
         OBS[("SQLite call log")]
     end
-    LLM{{"Groq Llama 3.3 70B<br/>→ NVIDIA NIM<br/>→ rule-based fallback"}}
+    LLM{{"Groq gpt-oss-120b<br/>→ NVIDIA NIM gpt-oss-20b<br/>→ rule-based fallback"}}
     UI["React dashboard"]
 
     SIM --> STORE
@@ -275,7 +281,7 @@ flowchart LR
 | Ingestion | Simulator data loaded in memory | Real AMI feeds through the ingestion pipeline already sketched (readers, quality gate, imputer, idempotent loader) into TimescaleDB, which the schema and migrations already describe |
 | Storage | In-memory store, one instance | Time-series database for readings, Postgres for queue and feedback; the API reads from them instead of memory |
 | Compute | Daily scoring of ~50 meters in one process | Score per transformer in parallel workers (the layers are per-transformer); incremental daily updates instead of recomputing the window |
-| Forecasting | 4-week seasonal mean per feeder | Chronos-Bolt served through ONNX or a separate small service (about 10% better MASE in the benchmark), plus weather and holiday inputs |
+| Forecasting | 4-week seasonal mean per feeder | Chronos-Bolt served through ONNX or a separate small service (about 11% better MASE in the benchmark), plus weather and holiday inputs |
 | Learning | Feedback is recorded, thresholds do not retrain | Use inspection outcomes to retune thresholds and measure precision on real visits |
 | Realism | Simulator calibrated on London households | Calibrate on utility data and validate against confirmed theft cases |
 | AI | Two providers with fallback | Cache briefs, rate-limit by user, add provider budget alerts |
@@ -301,8 +307,8 @@ flowchart LR
 | **FastAPI + Pydantic** | REST API, request validation | Async, typed, OpenAPI docs at `/docs` for free |
 | **pandas, NumPy** | Daily aggregation, scoring | The detection maths is column-wise over meters × days |
 | **scikit-learn** | Isolation forest (L3) | Standard, well-understood, no GPU |
-| **Groq (Llama 3.3 70B)** | Copilot, briefs, digest | Fast hosted inference with OpenAI-style tool calling |
-| **NVIDIA NIM (Llama 3.1 70B)** | LLM fallback | Second provider so one outage doesn't break the AI features |
+| **Groq (`openai/gpt-oss-120b`)** | Copilot, briefs, digest | Fast hosted inference with OpenAI-style tool calling |
+| **NVIDIA NIM (`openai/gpt-oss-20b`)** | LLM fallback | Second provider so one outage doesn't break the AI features |
 | **SQLite** | AI call log | Zero-ops, good enough for one instance |
 | **React, TypeScript, Vite** | Dashboard | Typed UI, fast builds |
 | **TanStack Query** | Data fetching | Caching, retries and loading states without hand-written state |
@@ -347,7 +353,7 @@ flowchart LR
 | Explainability | Inspector can check a flag on site | Per-layer evidence, shown agent steps |
 | Reliability | App works with no model key | Provider failover then rules; response states the path used |
 | Observability | Every model call visible | SQLite call log, Ops page (latency, tokens, tool calls, fallbacks) |
-| Testability | Reproducible | Fixed seeds, fake LLM transport, end-to-end tests, 34 backend tests |
+| Testability | Reproducible | Fixed seeds, fake LLM transport, 37 backend tests and 8 end-to-end tests |
 | Maintainability | Small, clean code | ruff, vulture (dead code), radon/xenon (complexity), jscpd (duplication) in CI. Prototype modules are listed and excluded rather than hidden. A Ponytail minimal-code review pass is planned and has not been run yet |
 | Security | No secrets in code, scanned | Env-only keys, CodeQL, OpenSSF Scorecard, Dependabot, per-visitor rate limits on AI endpoints |
 | Performance | Runs on a small server | Pandas/NumPy scoring in memory; heavy models are opt-in |
@@ -356,7 +362,7 @@ flowchart LR
 
 ## Results
 
-Everything here is measured, reproducible with one command, and checked in CI.
+Everything here is measured, reproducible with one command, and checked in CI. The full write-up, with the evaluation setup, confidence intervals, comparison against what each part replaced, and what did not work, is in [docs/results.md](docs/results.md).
 
 **Detection, on 20 networks the detector never saw during tuning** (thresholds were tuned on development seeds 0-19; these are seeds 1000-1019, each 8 transformers × 6 meters × 60 days with 11 random thefts and 4 vacant-house decoys):
 
@@ -401,7 +407,7 @@ flowchart LR
 ```
 
 - **Tests** run with a fake LLM transport, so CI never calls a model unless a key secret is configured.
-- **Eval gates:** CI regenerates the held-out detection eval and fails if recall drops below 0.85.
+- **Eval gates:** CI regenerates the held-out detection eval and fails if recall drops below 0.85. The script defaults to the calibrated simulator, so the gate runs on that (mean recall 0.859); the committed `detection.json` and the headline numbers above come from the original simulator (`--simulator original`).
 - **Quality:** ruff, dead-code detection (vulture) and duplication (jscpd) fail the build. Complexity (radon/xenon) is reported and gated loosely: several functions (`alerts`, the observability `summary`, `score_meters`) are above the target and are scheduled for a refactor.
 - **Prototype modules** from the original feature-by-feature build (DB ingestion, earlier per-layer detectors, risk and feedback models) are not imported by the API and are excluded from lint; see [Limits](#limits).
 
@@ -426,7 +432,7 @@ Client configuration (for example a desktop assistant's MCP settings):
 { "mcpServers": { "vidyutdrishti": { "command": "python", "args": ["-m", "app.mcp_server"], "cwd": "/path/to/vidyutdrishti/backend" } } }
 ```
 
-Tools: `get_overview`, `list_zones`, `get_queue`, `find_meters`, `get_meter`, `get_dt_balance`, `detection_quality`, `get_alerts`. Tested by listing the tools through the server and by an end-to-end stdio session against the seeded demo network.
+Tools: `get_overview`, `list_zones`, `get_queue`, `find_meters`, `get_meter`, `get_dt_balance`, `detection_quality`, `get_alerts`. Tested by listing the tools through the server and checking that their names, descriptions and required arguments match what the copilot sees.
 
 ## Run it
 
