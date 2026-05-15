@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY backend/pyproject.toml /app/backend/pyproject.toml
 COPY backend/app /app/backend/app
 COPY simulator /app/simulator
+# Held-out eval results, served by /metrics/evaluation and /ai/evals
+COPY evals/results /app/evals/results
 
 RUN pip install --upgrade pip && pip install -e /app/backend
 
