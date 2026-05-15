@@ -1,0 +1,32 @@
+{
+  "feeders": 20,
+  "households_per_feeder": 50,
+  "origins": 28,
+  "band_coverage_80": 0.787,
+  "results": {
+    "shipped_seasonal_mean": {
+      "wape": 0.1118,
+      "mase": 0.825
+    },
+    "naive_yesterday": {
+      "wape": 0.1313,
+      "mase": 0.968
+    },
+    "seasonal_naive_week": {
+      "wape": 0.133,
+      "mase": 0.982
+    },
+    "mean_last_4_weeks": {
+      "wape": 0.1118,
+      "mase": 0.825
+    },
+    "chronos_bolt_tiny": {
+      "wape": 0.1012,
+      "mase": 0.747
+    },
+    "chronos_bolt_small": {
+      "wape": 0.0993,
+      "mase": 0.733
+    }
+  }
+}

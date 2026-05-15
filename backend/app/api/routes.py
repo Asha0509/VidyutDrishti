@@ -178,7 +178,7 @@ async def forecast(feeder_id: str) -> dict[str, Any]:
         # Demand can't be negative; the model's symmetric band can dip below zero at night.
         "points": [{**p, "lower_kw": max(0.0, p["lower_kw"])} for p in result["points"]],
         "history": [{"timestamp": ts.isoformat(), "kw": round(float(v), 2)} for ts, v in history.items()],
-        "source": "Seasonal baseline: same weekday and time of day over the last 4 weeks, plus a 30-day trend.",
+        "source": f"{result['model']}; band = 10th-90th percentile of the model's own recent errors.",
     }
 
 

@@ -81,7 +81,7 @@ flowchart LR
         STORE[("In-memory store<br/>daily kWh per meter<br/>energy into each transformer")]
         DET["Detection engine<br/>L0 balance · L1 history<br/>L2 neighbours · L3 outliers"]
         Q["Inspection queue<br/>ranked by rupees x confidence"]
-        FC["Feeder forecast<br/>seasonal baseline + band"]
+        FC["Feeder forecast<br/>4-week seasonal mean + band"]
         AI["AI layer<br/>copilot · inspection brief · digest"]
         TOOLS["8 read-only data tools"]
         OBS[("SQLite call log")]
@@ -271,7 +271,7 @@ python evals/ai_eval.py --mode rules                  # AI baseline (--mode agen
 ```
 backend/app/detection/scoring.py   the four layers, confidence, tiers, queue ranking
 backend/app/ai/                    LLM client, data tools, copilot and brief agents, alerts, call log
-backend/app/forecast/engine.py     seasonal-baseline feeder forecast with bands
+backend/app/forecast/engine.py     4-week seasonal-mean feeder forecast with error-based bands
 backend/app/api/                   REST endpoints (/api/v1 and /api/v1/ai)
 backend/tests/                     unit and API tests
 simulator/                         synthetic network, thefts, decoys
@@ -285,7 +285,7 @@ logs/                              per-feature notes and tests from the original
 - **Simulated data.** No public dataset labels theft at this granularity, so theft patterns are modelled, and the simulator has not been compared with real smart-meter data. Treat the accuracy figures as method validation, not field performance.
 - **Rupee figures** use flat assumed tariffs and the ROI page rests on stated assumptions, not billing data.
 - **Inspection outcomes** are recorded and shown, but don't retrain the thresholds yet.
-- **The forecast** is a seasonal baseline with a confidence band; it has not been benchmarked against alternatives here.
+- **The forecast** is the mean of the same slot over the last four weeks, with a band from its own recent errors. On real London feeders it scores MASE 0.83 against 1.52 for the model it replaced; a pretrained Chronos-Bolt does better (0.73) but is too heavy for the server. See [docs/FORECAST_BENCHMARK.md](docs/FORECAST_BENCHMARK.md).
 - **The API keeps data in memory.** TimescaleDB and the ingestion CLI come from the original prototype and aren't wired into the API; the same goes for the earlier per-layer detector modules in `backend/app`.
 - **Complexity:** a few long functions are reported in CI and due for a refactor.
 
