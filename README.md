@@ -36,6 +36,20 @@ VidyutDrishti scores every meter every day with four independent checks and turn
 7. **Explain and assist.** Each flag shows its evidence and a brief of the likely cause and what to check; a copilot answers questions with every data lookup shown; an alert digest summarises what changed; the next 24 hours of feeder demand are forecast with a band.
 8. **Measure itself.** Held-out detection and AI evals run in CI.
 
+## Screenshots
+
+Taken from the live deployment, on the synthetic demo network.
+
+![Landing page: the four checks, measured accuracy, where AI helps and what the demo is not](docs/images/landing.png)
+![Overview: loss estimate, inspect-first list, transformer balance and which checks fired](docs/images/overview.png)
+![Inspection queue: every flagged meter ranked by recoverable money, with outcome buttons](docs/images/queue.png)
+![Ask the data: the copilot answers from the same data tools and shows how it got there](docs/images/copilot.png)
+![Meter detail: evidence and the inspection brief for one flagged meter](docs/images/meter-detail.png)
+![Zones and transformers](docs/images/zones.png)
+![Alerts and the morning digest](docs/images/alerts.png)
+![Accuracy and ROI: precision, recall, threshold sweep](docs/images/accuracy.png)
+![AI operations: every model call, latency and fallback](docs/images/ai-ops.png)
+
 ## File structure
 
 ```
