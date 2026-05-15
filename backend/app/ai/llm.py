@@ -33,7 +33,7 @@ class _Settings:
 
     @property
     def GROQ_MODEL(self) -> str:
-        return os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+        return os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b")
 
     @property
     def NVIDIA_NIM_API_KEY(self) -> str:
@@ -41,7 +41,7 @@ class _Settings:
 
     @property
     def NVIDIA_NIM_MODEL(self) -> str:
-        return os.environ.get("NVIDIA_NIM_MODEL", "meta/llama-3.1-70b-instruct")
+        return os.environ.get("NVIDIA_NIM_MODEL", "openai/gpt-oss-20b")
 
 
 settings = _Settings()

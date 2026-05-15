@@ -182,7 +182,7 @@ A meter is flagged at confidence **0.50** and tiered HIGH (â‰¥ 0.80), MEDIUM (â‰
 | Answering questions about the network | **LLM agent with 8 read-only tools** | Every number comes from a tool call, and the steps are shown, so answers can be audited. |
 | Morning digest | **Rules find alerts, LLM summarises** | Rules decide what is alert-worthy; the model only writes the summary. |
 
-Models: Groq `llama-3.3-70b-versatile` first, NVIDIA NIM `meta/llama-3.1-70b-instruct` as fallback, then a rule-based answer, so the app works with no key at all and says which path answered. Every model call is logged to SQLite (latency, tokens, tool calls, failovers, fallback reason) and shown on the AI operations page; AI endpoints are rate-limited per visitor when a key is set.
+Models: Groq `openai/gpt-oss-120b` first, NVIDIA NIM `openai/gpt-oss-20b` as fallback, then a rule-based answer, so the app works with no key at all and says which path answered. Every model call is logged to SQLite (latency, tokens, tool calls, failovers, fallback reason) and shown on the AI operations page; AI endpoints are rate-limited per visitor when a key is set.
 
 **AI evals** (`python evals/ai_eval.py --mode rules|agent`) run on unseen networks: brief causes are checked against the simulator's ground truth, and copilot answers against values computed from the same data, with a check for invented meter ids. The rule-based baseline: cause right 73%, theft-vs-genuine right 85%, copilot 80% right with no invented meters. The agent run needs a model key and runs in CI when one is configured.
 
