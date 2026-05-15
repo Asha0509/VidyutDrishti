@@ -42,6 +42,8 @@ Taken from the live deployment, on the synthetic demo network.
 
 The live app has a **Take the app tour** button (on the landing page and in the sidebar). It walks through every page in turn, says what the page is for and lists what is on it, while the page stays visible beside the guide.
 
+![App tour: a docked guide that says what each page is for while the page stays visible](docs/images/app-tour.png)
+
 ![Landing page: the four checks, measured accuracy, where AI helps and what the demo is not](docs/images/landing.png)
 ![Overview: loss estimate, inspect-first list, transformer balance and which checks fired](docs/images/overview.png)
 ![Inspection queue: every flagged meter ranked by recoverable money, with outcome buttons](docs/images/queue.png)
