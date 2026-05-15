@@ -21,7 +21,7 @@ jobs:
           python-version: "3.11"
           cache: pip
           cache-dependency-path: backend/pyproject.toml
-      - run: pip install -e "backend[dev]" pyyaml pytest-asyncio httpx
+      - run: pip install -e "backend[dev,mcp]" pyyaml pytest-asyncio httpx
       - run: ruff check .
       - name: Unit, API and AI tests (fake LLM, no network)
         working-directory: backend

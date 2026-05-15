@@ -57,12 +57,13 @@ backend/app/
   ai/agents.py               Tool-calling copilot and inspection-brief agents with rule-based fallback
   ai/tools.py                Eight read-only data tools; every number the agents give comes from them
   ai/llm.py                  Shared client: Groq, then NVIDIA NIM, then rules
+  mcp_server.py              MCP server: the same 8 read-only tools over the Model Context Protocol (stdio)
   ai/alerts.py               Rules over day-to-day changes; the model only writes the summary
   ai/observability.py        SQLite log of every model call and run
   forecast/engine.py         4-week seasonal-mean feeder forecast with error-based band (optional Chronos-Bolt)
   evaluation/live.py         Measured detection metrics against the simulator's ground truth
   ingestion/, db/, features/, forecasting/ (Prophet), risk/, feedback/, inspection/, audit/   Prototype modules from the first build; not wired into the API
-backend/tests/              Detection, store/API, AI (fake LLM), forecast, realism-config tests
+backend/tests/              Detection, store/API, AI (fake LLM), forecast, realism-config, MCP server tests
 
 simulator/
   dataset.py, load_model.py, scenarios.py, models.py, generate.py, calibrated_realism.json
@@ -259,6 +260,7 @@ flowchart LR
 | **pytest, ruff, vulture, radon, jscpd** | Tests, lint, dead code, complexity, duplication | Enforced in CI (below) |
 | **GitHub Actions, CodeQL, Dependabot, OpenSSF Scorecard** | CI/CD, security scanning, dependency updates | Every push is tested, evaluated and scanned |
 | **Docker, Render** | Packaging, hosting | One image for the API; Render deploys from `main` on push, alongside CI |
+| **Model Context Protocol (`mcp`)** | Serves the copilot's data tools to any MCP client | Open standard; reuses the existing tools with no new logic |
 | **SDMetrics, Chronos-Bolt (optional)** | Simulator realism scoring, benchmark comparator | Standard realism metrics; a strong pretrained forecaster to measure the simple model against |
 
 ## Principles used
@@ -358,6 +360,23 @@ flowchart LR
 `scripts/validate.sh` runs the whole pipeline in order and prints a pass/fail line per stage: lint, backend tests, end-to-end tests, the held-out detection gate (recall >= 0.85 on 20 unseen networks), the AI eval and the frontend build; `--full` also re-runs the real-data realism check and the forecast benchmark. It is the same set of checks CI runs, so a green local run predicts a green build.
 
 `render.yaml` is a Render blueprint with `autoDeployTrigger: checksPass`: a push to `main` deploys only after the GitHub checks pass. Secrets are declared with `sync: false` and entered in the Render dashboard, never committed.
+
+### MCP server
+
+The copilot's eight read-only data tools are also served over the [Model Context Protocol](https://modelcontextprotocol.io), so any MCP client (an IDE, a desktop assistant, another agent) can query the network without going through the dashboard. It reuses `app/ai/tools.py` unchanged, so tool names, arguments and descriptions are identical to what the in-app copilot sees, and nothing it exposes can write data or change a decision.
+
+```bash
+pip install -e "backend[mcp]"
+cd backend && python -m app.mcp_server        # seeds the demo network, then serves over stdio
+```
+
+Client configuration (for example a desktop assistant's MCP settings):
+
+```json
+{ "mcpServers": { "vidyutdrishti": { "command": "python", "args": ["-m", "app.mcp_server"], "cwd": "/path/to/vidyutdrishti/backend" } } }
+```
+
+Tools: `get_overview`, `list_zones`, `get_queue`, `find_meters`, `get_meter`, `get_dt_balance`, `detection_quality`, `get_alerts`. Tested by listing the tools through the server and by an end-to-end stdio session against the seeded demo network.
 
 ## Run it
 
