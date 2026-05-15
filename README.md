@@ -35,6 +35,8 @@ That sets three requirements for any detector:
 | **Forecasts** | Next-24-hour feeder demand with a confidence band, from a seasonal baseline |
 | **Measures itself** | Held-out detection accuracy and AI evals, reproducible and gated in CI |
 
+![Meter detail: usage against neighbours and baseline, evidence from each check, rule-based inspection brief](docs/images/meter-detail.png)
+
 ## Results
 
 Everything here is measured, reproducible with one command, and checked in CI.
