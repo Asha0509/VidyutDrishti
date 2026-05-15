@@ -233,6 +233,12 @@ flowchart LR
 - **Quality:** ruff, dead-code detection (vulture) and duplication (jscpd) fail the build. Complexity (radon/xenon) is reported and gated loosely: several functions (`alerts`, the observability `summary`, `score_meters`) are above the target and are scheduled for a refactor.
 - **Prototype modules** from the original feature-by-feature build (DB ingestion, earlier per-layer detectors, risk and feedback models) are not imported by the API and are excluded from lint; see [Limits](#limits).
 
+### Validate and deploy
+
+`scripts/validate.sh` runs the whole pipeline in order and prints a pass/fail line per stage: lint, backend tests, end-to-end tests, the held-out detection gate (recall >= 0.85 on 20 unseen networks), the AI eval and the frontend build; `--full` also re-runs the real-data realism check and the forecast benchmark. It is the same set of checks CI runs, so a green local run predicts a green build.
+
+`render.yaml` is a Render blueprint with `autoDeployTrigger: checksPass`: a push to `main` deploys only after the GitHub checks pass. Secrets are declared with `sync: false` and entered in the Render dashboard, never committed.
+
 ## Run it
 
 **Quick demo (no database):**

@@ -1,0 +1,39 @@
+# Render blueprint. Deploys only after the GitHub checks on the branch pass.
+services:
+  - type: web
+    name: vidyutdrishti-api
+    runtime: python
+    plan: starter
+    branch: main
+    autoDeployTrigger: checksPass
+    buildCommand: pip install ./backend
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /docs
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DEMO_SEED
+        value: "1"
+      - key: DB_NAME
+        value: demo
+      - key: DB_USER
+        value: demo
+      - key: DB_PASSWORD
+        value: demo
+      - key: GROQ_API_KEY
+        sync: false
+  - type: web
+    name: vidyutdrishti
+    runtime: static
+    branch: main
+    autoDeployTrigger: checksPass
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
