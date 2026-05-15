@@ -175,7 +175,8 @@ async def forecast(feeder_id: str) -> dict[str, Any]:
         "feeder_id": feeder_id,
         "created_at": result["created_at"],
         "peak_forecast_kw": result["peak_forecast_kw"],
-        "points": result["points"],
+        # Demand can't be negative; the model's symmetric band can dip below zero at night.
+        "points": [{**p, "lower_kw": max(0.0, p["lower_kw"])} for p in result["points"]],
         "history": [{"timestamp": ts.isoformat(), "kw": round(float(v), 2)} for ts, v in history.items()],
         "source": "Seasonal baseline: same weekday and time of day over the last 4 weeks, plus a 30-day trend.",
     }
