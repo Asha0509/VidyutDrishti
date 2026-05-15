@@ -4,8 +4,8 @@ import pytest
 
 pytest.importorskip("mcp")
 
-from app.ai import tools  # noqa: E402
-from app.mcp_server import build_server  # noqa: E402
+from app.ai import tools
+from app.mcp_server import build_server
 
 
 def test_server_exposes_exactly_the_copilot_tools():
