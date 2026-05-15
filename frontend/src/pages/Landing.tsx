@@ -94,6 +94,7 @@ export default function Landing() {
             </p>
             <div className="row">
               <Link className="btn btn-signal" to="/app">Open the control room</Link>
+              <Link className="btn btn-outline-light" to="/app?tour=1">Take the app tour</Link>
               <Link className="btn btn-outline-light" to="/app/queue">See today's inspection list</Link>
             </div>
           </div>

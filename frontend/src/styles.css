@@ -259,3 +259,21 @@ details.trace ol { margin: 0.5rem 0 0; padding-left: 1.3rem; display: grid; gap:
 /* Leaflet */
 .map { height: 360px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); z-index: 0; }
 .leaflet-container { font-family: var(--font); }
+
+/* App tour: a docked card that walks through every page while the page stays visible. */
+.tour {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 40;
+  width: min(380px, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); overflow: auto;
+  background: var(--navy); color: #fff; border-radius: var(--radius);
+  padding: 1rem 1.1rem; box-shadow: 0 8px 28px rgba(20, 32, 48, 0.35);
+}
+.tour-head { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #c3ccd6; text-transform: uppercase; letter-spacing: 0.06em; }
+.tour-x { background: none; border: 0; color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer; }
+.tour h2 { margin: 0.4rem 0 0.3rem; font-size: 1.35rem; color: var(--signal); }
+.tour-what { margin: 0 0 0.6rem; font-size: 0.95rem; line-height: 1.4; }
+.tour ul { margin: 0 0 0.9rem; padding-left: 1.1rem; font-size: 0.875rem; line-height: 1.4; color: #dfe5ec; }
+.tour li { margin-bottom: 0.35rem; }
+.tour-nav { display: flex; justify-content: space-between; }
+.tour .btn { background: transparent; border-color: rgba(255,255,255,0.45); color: #fff; }
+.tour .btn-primary { background: var(--signal); border-color: #d9a300; color: var(--ink); }
+.tour-launch { margin: 0.8rem 0.2rem 0; }

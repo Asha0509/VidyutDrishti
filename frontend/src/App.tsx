@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { NavLink, Outlet, Route, Routes, useLocation, Link } from 'react-router-dom'
+import { NavLink, Outlet, Route, Routes, useLocation, useSearchParams, Link } from 'react-router-dom'
+import Tour from './components/Tour'
 import Landing from './pages/Landing'
 import { BrandMark, Loading } from './components/ui'
 import { useAiStatus } from './lib/queries'
@@ -26,6 +27,8 @@ const NAV = [
 
 function Shell() {
   const [open, setOpen] = useState(false)
+  const [params, setParams] = useSearchParams()
+  const [tour, setTour] = useState(params.get('tour') === '1')
   const loc = useLocation()
   const status = useAiStatus()
   useEffect(() => { setOpen(false); window.scrollTo(0, 0) }, [loc.pathname])
@@ -43,6 +46,7 @@ function Shell() {
             <NavLink key={n.to} to={n.to} end={n.end}>{n.label}</NavLink>
           ))}
         </nav>
+        <button className="btn btn-signal btn-sm tour-launch" onClick={() => { setTour(true); setOpen(false) }}>Take the app tour</button>
         <div className="sidebar-foot">
           <span>
             <i className="dot" style={{ background: status.isError ? '#F97066' : status.data ? '#47CD89' : '#98A2B3' }} />
@@ -55,6 +59,7 @@ function Shell() {
       <main className="main" id="main">
         <Suspense fallback={<Loading />}><Outlet /></Suspense>
       </main>
+      <Tour open={tour} onClose={() => { setTour(false); if (params.has('tour')) setParams({}, { replace: true }) }} />
     </div>
   )
 }

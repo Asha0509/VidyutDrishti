@@ -40,6 +40,8 @@ VidyutDrishti scores every meter every day with four independent checks and turn
 
 Taken from the live deployment, on the synthetic demo network.
 
+The live app has a **Take the app tour** button (on the landing page and in the sidebar). It walks through every page in turn, says what the page is for and lists what is on it, while the page stays visible beside the guide.
+
 ![Landing page: the four checks, measured accuracy, where AI helps and what the demo is not](docs/images/landing.png)
 ![Overview: loss estimate, inspect-first list, transformer balance and which checks fired](docs/images/overview.png)
 ![Inspection queue: every flagged meter ranked by recoverable money, with outcome buttons](docs/images/queue.png)
@@ -52,54 +54,86 @@ Taken from the live deployment, on the synthetic demo network.
 
 ## File structure
 
+One tree, so the nesting is visible. Each line says what the file is for.
+
+```text
+vidyutdrishti/
+├── .github/workflows/                          ci.yml (tests + eval gates), quality.yml (ruff, vulture, xenon, jscpd), codeql.yml, scorecard.yml
+├── render.yaml                                 Render blueprint: API + static dashboard, deploy only after checks pass
+├── ruff.toml                                   one lint config (prototype modules excluded)
+├── scripts/validate.sh                         one-command validation: lint, tests, held-out detection gate, AI eval, frontend build
+├── Makefile, docker-compose.yml, infra/        local Docker setup (API, dashboard, TimescaleDB for the prototype ingestion)
+├── backend/
+│   ├── app/
+│   │   ├── main.py                             FastAPI entry point, CORS, startup demo seeding
+│   │   ├── config.py                           runtime settings from environment variables
+│   │   ├── store.py                            in-memory store: readings, topology, queue, feedback, evaluation
+│   │   ├── demo_seed.py                        generates the 60-day demo network at startup
+│   │   ├── mcp_server.py                       MCP server: the same 8 read-only tools over the Model Context Protocol (stdio)
+│   │   ├── api/
+│   │   │   ├── routes.py                       REST: overview, queue, meters, zones, balance, feedback, forecast, evaluation, ROI
+│   │   │   └── ai.py                           copilot, brief, alerts, digest, ops views, evals
+│   │   ├── detection/
+│   │   │   ├── scoring.py                      the live detector: four layers, confidence, tiers, ranking, pattern label
+│   │   │   └── layer0..3_*.py, classifier.py, confidence.py  earlier per-layer prototype modules (not used by the API)
+│   │   ├── ai/
+│   │   │   ├── agents.py                       tool-calling copilot and inspection-brief agents with rule-based fallback
+│   │   │   ├── tools.py                        eight read-only data tools; every number the agents give comes from them
+│   │   │   ├── llm.py                          shared client: Groq, then NVIDIA NIM, then rules
+│   │   │   ├── alerts.py                       rules over day-to-day changes; the model only writes the summary
+│   │   │   └── observability.py                SQLite log of every model call and run
+│   │   ├── forecast/engine.py                  4-week seasonal-mean feeder forecast with error-based band (optional Chronos-Bolt)
+│   │   ├── evaluation/live.py                  measured detection metrics against the simulator's ground truth
+│   │   └── ingestion/, db/, features/, forecasting/, risk/, feedback/, inspection/, audit/  prototype modules from the first build; not wired into the API
+│   └── tests/                                  detection, store/API, AI (fake LLM), forecast, realism-config, MCP server
+├── simulator/                                  synthetic network, load shapes, theft and decoy injection, realism knobs calibrated on real households
+│   ├── dataset.py, load_model.py, scenarios.py, models.py, generate.py
+│   └── calibrated_realism.json
+├── evals/
+│   ├── detection_eval.py                       held-out detection on unseen networks (gated)
+│   ├── ai_eval.py                              brief and copilot evals against ground truth
+│   ├── real_data.py, realism_eval.py, calibrate_simulator.py  compare and calibrate the simulator against real London households
+│   ├── forecast_benchmark.py                   forecast benchmark on real data
+│   └── results/                                published JSON results
+├── tests/e2e/                                  end-to-end test through the API
+├── docs/                                       SIMULATOR_REALISM.md, FORECAST_BENCHMARK.md, images/
+├── db/                                         migrations/ and seed/: TimescaleDB schema and tariff/holiday seeds (prototype)
+├── logs/                                       per-feature build notes and tests from the original build
+└── frontend/src/
+    ├── App.tsx, main.tsx, api.ts, styles.css   routing, API client
+    ├── pages/                                  Landing, Dashboard, Queue, Meter, Zones (map + forecast), Alerts, Copilot, Quality, Ops
+    ├── components/
+    │   ├── Tour.tsx                            app tour: what is on every page
+    │   ├── DTDiagram.tsx                       transformer view
+    │   ├── Trace.tsx                           agent steps
+    │   └── ui.tsx
+    └── lib/                                    queries (TanStack Query), types, format
 ```
-.github/workflows/    ci.yml (tests + eval gates), quality.yml (ruff, vulture, xenon, jscpd), codeql.yml, scorecard.yml; dependabot.yml
-render.yaml           Render blueprint: API + static dashboard, deploy only after checks pass
-ruff.toml             One lint config (prototype modules excluded)
-scripts/validate.sh   One-command validation: lint, tests, held-out detection gate, AI eval, frontend build (--full adds real-data checks)
-Makefile, docker-compose.yml, infra/   Local Docker setup (API, dashboard, TimescaleDB for the prototype ingestion)
 
-backend/app/
-  main.py                    FastAPI entry point, CORS, startup demo seeding
-  config.py                  Runtime settings from environment variables
-  store.py                   In-memory store: readings, topology, queue, feedback, evaluation
-  demo_seed.py               Generates the 60-day demo network at startup
-  api/routes.py              REST API: overview, queue, meters, zones, transformer balance, feedback, forecast, evaluation, ROI
-  api/ai.py                  AI endpoints: copilot, brief, alerts, digest, ops views, evals
-  detection/scoring.py       The live detector: four layers, confidence, tiers, ranking, pattern label
-  detection/layer0..3_*.py, classifier.py, confidence.py   Earlier per-layer prototype modules (not used by the API)
-  ai/agents.py               Tool-calling copilot and inspection-brief agents with rule-based fallback
-  ai/tools.py                Eight read-only data tools; every number the agents give comes from them
-  ai/llm.py                  Shared client: Groq, then NVIDIA NIM, then rules
-  mcp_server.py              MCP server: the same 8 read-only tools over the Model Context Protocol (stdio)
-  ai/alerts.py               Rules over day-to-day changes; the model only writes the summary
-  ai/observability.py        SQLite log of every model call and run
-  forecast/engine.py         4-week seasonal-mean feeder forecast with error-based band (optional Chronos-Bolt)
-  evaluation/live.py         Measured detection metrics against the simulator's ground truth
-  ingestion/, db/, features/, forecasting/ (Prophet), risk/, feedback/, inspection/, audit/   Prototype modules from the first build; not wired into the API
-backend/tests/              Detection, store/API, AI (fake LLM), forecast, realism-config, MCP server tests
+### How the files connect
 
-simulator/
-  dataset.py, load_model.py, scenarios.py, models.py, generate.py, calibrated_realism.json
-                            Synthetic network, load shapes, theft and decoy injection, realism knobs calibrated on real households
+Arrows mean "imports" or "calls". Every number the AI features give comes
+through `ai/tools.py`, which reads only from the store.
 
-evals/
-  detection_eval.py         Held-out detection on unseen networks (gated)
-  ai_eval.py                Brief and copilot evals against ground truth
-  real_data.py, realism_eval.py, calibrate_simulator.py   Compare and calibrate the simulator against real London households
-  forecast_benchmark.py     Forecast benchmark on real data
-  results/                  Published JSON results
-
-tests/e2e/                  End-to-end test through the API
-docs/                       SIMULATOR_REALISM.md, FORECAST_BENCHMARK.md, images
-db/migrations/, db/seed/    TimescaleDB schema and tariff/holiday seeds (prototype)
-logs/                       Per-feature build notes and tests from the original build
-
-frontend/src/
-  App.tsx, main.tsx, api.ts, styles.css   Routing, API client
-  pages/    Landing, Dashboard, Queue, Meter, Zones (map + forecast), Alerts, Copilot, Quality (measured accuracy), Ops (AI calls)
-  components/  DTDiagram (transformer view), Trace (agent steps), ui
-  lib/      queries (TanStack Query), types, format
+```mermaid
+flowchart LR
+  sim[simulator/] --> seed[demo_seed.py] --> store[store.py]
+  store --> scoring[detection/scoring.py]
+  store --> live[evaluation/live.py]
+  routes[api/routes.py] --> store
+  tools[ai/tools.py] --> store
+  alerts[ai/alerts.py] --> store
+  agents[ai/agents.py] --> tools
+  agents --> llm[ai/llm.py]
+  alerts --> llm
+  aiapi[api/ai.py] --> agents
+  aiapi --> alerts
+  llm --> obs[ai/observability.py]
+  mcp[mcp_server.py] --> tools
+  main[main.py] --> routes
+  main --> aiapi
+  frontend[frontend pages] --> main
+  evals[evals/] --> scoring
 ```
 
 ## User flow
