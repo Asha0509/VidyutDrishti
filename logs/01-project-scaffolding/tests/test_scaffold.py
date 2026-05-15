@@ -1,7 +1,7 @@
 """Prototype-grade structural tests for Feature 01.
 
 These tests are intentionally lightweight - they verify that the
-scaffolding promised in `features.md` (section 01) is actually on
+scaffolding promised in `docs/features.md` (section 01) is actually on
 disk and well-formed, without requiring any third-party packages.
 
 Run with stdlib only:
@@ -23,7 +23,7 @@ class TestRepoLayout(unittest.TestCase):
 
     REQUIRED_PATHS = [
         "README.md",
-        "features.md",
+        "docs/features.md",
         ".gitignore",
         "Makefile",
         "docker-compose.yml",

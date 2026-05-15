@@ -1,6 +1,6 @@
 """Gap imputation for meter_reading and dt_reading time series.
 
-Policy (matches Feature 04 in `features.md`):
+Policy (matches Feature 04 in `docs/features.md`):
   * Gap < 1 hour  -> linear interpolation, mark imputed = True.
   * Gap 1-6 hour  -> carry-forward of the per-meter diurnal mean at
                       that slot (pragmatic prototype choice; Prophet

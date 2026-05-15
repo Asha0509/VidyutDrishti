@@ -569,7 +569,7 @@ def generate_document():
     docs = [
         'build_ppt.py: Automated PPT generation with 16 slides',
         'generate_custom_doc.py: Custom technical document generator with PDF output',
-        'features.md: 449-line detailed implementation order for all 22 features',
+        'docs/features.md: 449-line detailed implementation order for all 22 features',
         'logs/ directory: Per-feature implementation logs with test reviews',
     ]
     pdf.bullet_list(docs)

@@ -98,7 +98,7 @@ vidyutdrishti/
 │   ├── forecast_benchmark.py                   forecast benchmark on real data
 │   └── results/                                published JSON results
 ├── tests/e2e/                                  end-to-end test through the API
-├── docs/                                       SIMULATOR_REALISM.md, FORECAST_BENCHMARK.md, images/
+├── docs/                                       SIMULATOR_REALISM.md, FORECAST_BENCHMARK.md, features.md (build order), FEEDBACK_DEBUGGING_SUMMARY.md, images/
 ├── db/                                         migrations/ and seed/: TimescaleDB schema and tariff/holiday seeds (prototype)
 ├── logs/                                       per-feature build notes and tests from the original build
 └── frontend/src/
