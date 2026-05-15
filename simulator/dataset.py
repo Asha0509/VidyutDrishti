@@ -46,6 +46,42 @@ def _build_topology(cfg: SimConfig, rng: np.random.Generator) -> pd.DataFrame:
 # Load generation
 # ---------------------------------------------------------------------------
 
+def _realistic_profile(cfg: SimConfig, rng: np.random.Generator, diurnal: np.ndarray, knobs: dict[str, float]) -> np.ndarray:
+    """Per-meter daily shape: a flat base load, a household-specific wobble and a shifted peak."""
+    profile = diurnal.copy()
+    base = knobs.get("base_load_frac", 0.0)
+    if base:
+        profile = (1.0 - base) * profile + base
+    wobble = knobs.get("shape_jitter", 0.0)
+    if wobble:
+        per_hour = rng.lognormal(mean=0.0, sigma=wobble, size=24)
+        profile = profile * np.repeat(per_hour, cfg.slots_per_day // 24)
+    shift = int(knobs.get("timing_shift_hours", 0))
+    if shift:
+        profile = np.roll(profile, int(rng.integers(-shift, shift + 1)) * (cfg.slots_per_day // 24))
+    return profile / profile.mean()
+
+
+def _realistic_daily_totals(
+    cfg: SimConfig, rng: np.random.Generator, mean: float, std: float, knobs: dict[str, float]
+) -> np.ndarray:
+    """Daily kWh with day-to-day persistence (AR(1)), per-meter variability and optional right skew."""
+    phi = knobs.get("ar1_phi", 0.0)
+    scale = std * knobs.get("cv_mult", 1.0) * float(rng.lognormal(mean=0.0, sigma=knobs.get("meter_cv_sigma", 0.0)))
+    level = mean * float(rng.lognormal(mean=0.0, sigma=knobs.get("meter_level_sigma", 0.0)))
+    eps = rng.normal(size=cfg.days)
+    z = np.empty(cfg.days)
+    z[0] = eps[0]
+    for t in range(1, cfg.days):
+        z[t] = phi * z[t - 1] + np.sqrt(1.0 - phi**2) * eps[t]
+    if knobs.get("lognormal_daily", 0.0):
+        sigma = np.sqrt(np.log(1.0 + (scale / mean) ** 2))
+        totals = level * np.exp(sigma * z - 0.5 * sigma**2)
+    else:
+        totals = level + scale * z
+    return np.clip(totals, a_min=0.1 * level, a_max=None)
+
+
 def _simulate_meter(
     cfg: SimConfig,
     rng: np.random.Generator,
@@ -60,10 +96,15 @@ def _simulate_meter(
 
     diurnal = build_diurnal_profile(cfg, category)                           # (slots,)
     day_mult = build_daily_multiplier(cfg, category, dates, holidays_set)    # (days,)
+    knobs = cfg.realism
 
-    # Per-day total energy (clipped to a small floor so the shape is never negative)
-    daily_totals = rng.normal(loc=daily_mean, scale=daily_std, size=cfg.days)
-    daily_totals = np.clip(daily_totals, a_min=0.1 * daily_mean, a_max=None)
+    if knobs:
+        diurnal = _realistic_profile(cfg, rng, diurnal, knobs)
+        daily_totals = _realistic_daily_totals(cfg, rng, daily_mean, daily_std, knobs)
+    else:
+        # Per-day total energy (clipped to a small floor so the shape is never negative)
+        daily_totals = rng.normal(loc=daily_mean, scale=daily_std, size=cfg.days)
+        daily_totals = np.clip(daily_totals, a_min=0.1 * daily_mean, a_max=None)
     daily_totals = daily_totals * day_mult
 
     # Convert daily totals to per-slot energy using the diurnal profile.
@@ -73,6 +114,9 @@ def _simulate_meter(
 
     # Multiplicative Gaussian noise
     noise = rng.normal(loc=1.0, scale=cfg.noise_std_fraction, size=per_slot.shape)
+    if knobs.get("spike_sigma"):
+        sigma = knobs["spike_sigma"]
+        noise = noise * rng.lognormal(mean=-0.5 * sigma**2, sigma=sigma, size=per_slot.shape)
     per_slot = np.clip(per_slot * noise, a_min=0.0, a_max=None)
     return per_slot
 

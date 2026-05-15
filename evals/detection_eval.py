@@ -35,7 +35,10 @@ from simulator.models import SimConfig  # noqa: E402
 KINDS = ["hook_bypass", "gradual_tampering", "meter_stop"]
 
 
-def random_network(seed: int, days: int = 60, dts: int = 8, per_dt: int = 6):
+CALIBRATED = os.path.join(ROOT, "simulator", "calibrated_realism.json")
+
+
+def random_network(seed: int, days: int = 60, dts: int = 8, per_dt: int = 6, realism: dict | None = None):
     rnd = random.Random(seed)
     meters = [f"DT{d}-M{m:02d}" for d in range(1, dts + 1) for m in range(1, per_dt + 1)]
     picks = rnd.sample(meters, 15)
@@ -51,7 +54,7 @@ def random_network(seed: int, days: int = 60, dts: int = 8, per_dt: int = 6):
                        "severity": round(rnd.uniform(0.7, 0.95), 2)})
     raw = yaml.safe_load(open(os.path.join(ROOT, "simulator", "config.yaml")))
     raw.update(seed=seed, days=days, start_date=(date(2026, 1, 1)).isoformat(), dt_count=dts, meters_per_dt=per_dt,
-               theft_scenarios=thefts, decoys=decoys)
+               theft_scenarios=thefts, decoys=decoys, realism=realism or {})
     return SimConfig.from_dict(raw), thefts, decoys
 
 
@@ -75,12 +78,15 @@ def main() -> int:
     ap.add_argument("--networks", type=int, default=20)
     ap.add_argument("--first-seed", type=int, default=1000)
     ap.add_argument("--out", default=os.path.join(HERE, "results", "detection.json"))
+    ap.add_argument("--simulator", choices=["original", "calibrated"], default="calibrated",
+                    help="calibrated = realism knobs fitted to real households (simulator/calibrated_realism.json)")
     ap.add_argument("--gate-recall", type=float, default=None, help="Fail if mean recall is below this")
     args = ap.parse_args()
 
+    realism = json.load(open(CALIBRATED))["knobs"] if args.simulator == "calibrated" else {}
     runs = []
     for seed in range(args.first_seed, args.first_seed + args.networks):
-        cfg, thefts, decoys = random_network(seed)
+        cfg, thefts, decoys = random_network(seed, realism=realism)
         scores = score_network(cfg)
         queue = [s.meter_id for s in rank_queue(scores)]
         m = compute(scores, {t["meter_id"]: t["kind"] for t in thefts}, {d["meter_id"]: d["kind"] for d in decoys}, queue)
@@ -107,6 +113,8 @@ def main() -> int:
     report = {
         "run_at": datetime.now(UTC).isoformat(timespec="seconds"),
         "networks": args.networks,
+        "simulator": args.simulator,
+        "first_seed": args.first_seed,
         "setup": "8 DTs x 6 meters, 60 days; per network 11 random thefts and 4 vacancy decoys",
         "precision": stat("precision"), "recall": stat("recall"), "f1_score": stat("f1_score"),
         "precision_at_10": stat("precision_at_10"),

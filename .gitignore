@@ -55,3 +55,4 @@ reports/
 .env.*
 !infra/.env.sample
 *.tsbuildinfo
+data/real/

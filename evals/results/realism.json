@@ -1,0 +1,47 @@
+{
+  "run_at": "2026-10-08T05:15:32+00:00",
+  "real_households": {
+    "calibration_shard": 498,
+    "scoring_shard": 499
+  },
+  "features": [
+    "cv_daily",
+    "ac1",
+    "ac7",
+    "weekend_ratio",
+    "night_share",
+    "evening_share",
+    "load_factor",
+    "skew_daily",
+    "low_day_ratio",
+    "intraday_var"
+  ],
+  "original_simulator": {
+    "quality": {
+      "overall": 0.6088182044846939,
+      "column_shapes": 0.3240480961923847,
+      "pair_trends": 0.8935883127770031
+    },
+    "classifier_auc": 1.0,
+    "distance": 0.9020207085166518
+  },
+  "calibrated_simulator": {
+    "quality": {
+      "overall": 0.8360951174334994,
+      "column_shapes": 0.7657314629258517,
+      "pair_trends": 0.9064587719411472
+    },
+    "classifier_auc": 0.9794779940642808,
+    "distance": 0.3565056860483841
+  },
+  "knobs": {
+    "ar1_phi": 0.4794,
+    "cv_mult": 1.1382,
+    "meter_cv_sigma": 0.6131,
+    "base_load_frac": 0.3231,
+    "shape_jitter": 0.7,
+    "timing_shift_hours": 1.0,
+    "spike_sigma": 0.3321,
+    "lognormal_daily": 1.0
+  }
+}

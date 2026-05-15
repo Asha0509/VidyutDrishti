@@ -71,6 +71,8 @@ class SimConfig:
 
     theft_scenarios: list[TheftScenario] = field(default_factory=list)
     decoys: list[Decoy] = field(default_factory=list)
+    # Optional realism knobs (see simulator/dataset.py). Empty means the original independent-day behaviour.
+    realism: dict[str, float] = field(default_factory=dict)
 
     # -------------- Convenience --------------
 
@@ -128,6 +130,7 @@ class SimConfig:
             missing_long_prob=float(raw["missing_long_prob"]),
             theft_scenarios=[_theft(x) for x in raw.get("theft_scenarios", [])],
             decoys=[_decoy(x) for x in raw.get("decoys", [])],
+            realism={k: float(v) for k, v in (raw.get("realism") or {}).items()},
         )
         cfg.validate()
         return cfg

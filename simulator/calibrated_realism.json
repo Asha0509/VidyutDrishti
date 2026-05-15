@@ -1,0 +1,14 @@
+{
+  "calibrated_on": "shard 0 (first half of the real households)",
+  "distance_on_shard0": 0.32076183884530196,
+  "knobs": {
+    "ar1_phi": 0.4794,
+    "cv_mult": 1.1382,
+    "meter_cv_sigma": 0.6131,
+    "base_load_frac": 0.3231,
+    "shape_jitter": 0.7,
+    "timing_shift_hours": 1.0,
+    "spike_sigma": 0.3321,
+    "lognormal_daily": 1.0
+  }
+}
