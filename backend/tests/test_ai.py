@@ -174,6 +174,8 @@ async def test_ai_api(client, no_key):
     assert (await client.get("/api/v1/ai/alerts/digest?days=7")).json()["digest"]
     assert (await client.get("/api/v1/ai/ops/summary")).json()["triage"]["runs"] >= 3
     assert "calls" in (await client.get("/api/v1/ai/ops/calls")).json()
+    ev = (await client.get("/api/v1/ai/evals")).json()
+    assert ev["rules"]["brief"]["cases"] > 0 and "rows" not in ev["rules"]["copilot"]
 
 
 @pytest.mark.asyncio

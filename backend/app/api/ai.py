@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import os
 import time
 import uuid
 from collections import defaultdict, deque
@@ -20,6 +22,7 @@ router = APIRouter(prefix="/ai", tags=["AI"])
 RATE_LIMIT, RATE_WINDOW_S = 20, 600
 _hits: Dict[str, deque] = defaultdict(deque)
 _brief_cache: Dict[tuple, Dict[str, Any]] = {}
+EVAL_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "evals", "results")
 
 
 def _limit(request: Request) -> None:
@@ -115,3 +118,20 @@ async def ops_runs(limit: int = Query(40, ge=1, le=500)) -> Dict[str, Any]:
 @router.get("/ops/timeseries")
 async def ops_timeseries(hours: float = Query(24, gt=0, le=24 * 30), bucket_minutes: int = Query(60, ge=5)) -> Dict[str, Any]:
     return {"points": observability.timeseries(hours, bucket_minutes)}
+
+
+@router.get("/evals")
+async def ai_evals() -> Dict[str, Any]:
+    """Latest results of evals/ai_eval.py per mode (rules baseline, agent), without per-case rows."""
+    out: Dict[str, Any] = {}
+    for mode in ("rules", "agent"):
+        path = os.path.join(EVAL_DIR, f"ai-{mode}.json")
+        if not os.path.isfile(path):
+            continue
+        with open(path) as f:
+            rep = json.load(f)
+        out[mode] = {"run_at": rep["run_at"], "networks": rep["networks"], "providers": rep.get("providers", []),
+                     **{part: {k: v for k, v in rep[part].items() if k != "rows"} for part in ("brief", "copilot")},
+                     "copilot_failures": [{k: r[k] for k in ("question", "expected", "answer")}
+                                          for r in rep["copilot"]["rows"] if not r["pass"]][:6]}
+    return out
