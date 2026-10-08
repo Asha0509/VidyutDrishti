@@ -7,7 +7,7 @@ readme = "README.md"
 license = { text = "Proprietary - Prototype" }
 
 dependencies = [
-    "fastapi>=0.115,<0.116",
+    "fastapi>=0.115,<0.143",
     "starlette>=0.40,<0.47",
     "uvicorn[standard]>=0.30,<0.31",
     "pydantic>=2.8,<3",
