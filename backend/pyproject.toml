@@ -31,7 +31,7 @@ dev = [
     "pytest-cov>=5.0,<6",
     "ruff>=0.6,<1",
     "black>=24.8,<25",
-    "mypy>=1.11,<2",
+    "mypy>=1.11,<3",
     "types-PyYAML",
     "types-python-dateutil",
 ]
